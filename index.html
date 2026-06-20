@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Phiếu Lý lịch khoa học - GV hướng dẫn TS QTKD</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="page">
+    <section class="paper">
+      <div class="top-note">Phụ lục IV - Mẫu thu thập thông tin giảng viên hướng dẫn nghiên cứu sinh</div>
+      <h1>LÝ LỊCH KHOA HỌC</h1>
+      <p class="subtitle">Giảng viên hướng dẫn Tiến sĩ Quản trị kinh doanh</p>
+
+      <form id="llkhForm">
+        <section class="block">
+          <h2>I. LÝ LỊCH SƠ LƯỢC</h2>
+          <div class="grid two">
+            <label>Họ và tên <input name="hoTen" required /></label>
+            <label>Giới tính <select name="gioiTinh"><option></option><option>Nam</option><option>Nữ</option></select></label>
+            <label>Ngày, tháng, năm sinh <input name="ngaySinh" type="date" /></label>
+            <label>Nơi sinh <input name="noiSinh" /></label>
+            <label>Quê quán <input name="queQuan" /></label>
+            <label>Dân tộc <input name="danToc" /></label>
+            <label>Học vị cao nhất <input name="hocVi" placeholder="Tiến sĩ" /></label>
+            <label>Năm, nước nhận học vị <input name="namNuocHocVi" /></label>
+            <label>Chức danh khoa học cao nhất <input name="chucDanh" placeholder="PGS/GS" /></label>
+            <label>Năm bổ nhiệm <input name="namBoNhiem" /></label>
+            <label>Chức vụ hiện tại <input name="chucVu" /></label>
+            <label>Đơn vị công tác <input name="donVi" /></label>
+            <label class="full">Địa chỉ liên lạc <input name="diaChi" /></label>
+            <label>Điện thoại <input name="dienThoai" /></label>
+            <label>Email <input name="email" type="email" required /></label>
+          </div>
+        </section>
+
+        <section class="block">
+          <h2>II. QUÁ TRÌNH ĐÀO TẠO</h2>
+          <div class="grid two">
+            <label>Đại học - Nơi đào tạo <input name="dhNoiDaoTao" /></label>
+            <label>Đại học - Ngành học <input name="dhNganh" /></label>
+            <label>Đại học - Nước đào tạo <input name="dhNuoc" /></label>
+            <label>Đại học - Năm tốt nghiệp <input name="dhNam" /></label>
+            <label>Thạc sĩ chuyên ngành <input name="thsNganh" /></label>
+            <label>Thạc sĩ - Năm cấp bằng/Nơi đào tạo <input name="thsThongTin" /></label>
+            <label>Tiến sĩ chuyên ngành <input name="tsNganh" /></label>
+            <label>Tiến sĩ - Năm cấp bằng/Nơi đào tạo <input name="tsThongTin" /></label>
+            <label class="full">Tên luận án <input name="tenLuanAn" /></label>
+            <label>Ngoại ngữ 1 <input name="ngoaiNgu1" /></label>
+            <label>Mức độ sử dụng <input name="mucDo1" /></label>
+            <label>Ngoại ngữ 2 <input name="ngoaiNgu2" /></label>
+            <label>Mức độ sử dụng <input name="mucDo2" /></label>
+          </div>
+        </section>
+
+        <section class="block">
+          <h2>III. QUÁ TRÌNH CÔNG TÁC CHUYÊN MÔN</h2>
+          <table id="congTacTable">
+            <thead><tr><th>Thời gian</th><th>Nơi công tác</th><th>Công việc đảm nhiệm</th><th></th></tr></thead>
+            <tbody></tbody>
+          </table>
+          <button type="button" class="add" onclick="addRow('congTac')">+ Thêm quá trình công tác</button>
+        </section>
+
+        <section class="block">
+          <h2>IV. QUÁ TRÌNH NGHIÊN CỨU KHOA HỌC</h2>
+          <h3>1. Các đề tài nghiên cứu khoa học đã và đang tham gia</h3>
+          <table id="deTaiTable">
+            <thead><tr><th>Tên đề tài</th><th>Năm bắt đầu/hoàn thành</th><th>Cấp đề tài</th><th>Trách nhiệm tham gia</th><th></th></tr></thead>
+            <tbody></tbody>
+          </table>
+          <button type="button" class="add" onclick="addRow('deTai')">+ Thêm đề tài</button>
+
+          <h3>2. Các công trình khoa học đã công bố</h3>
+          <table id="baiBaoTable">
+            <thead><tr><th>Tên công trình</th><th>Năm</th><th>Tạp chí/NXB</th><th>Loại</th><th>Q</th><th>Vai trò</th><th>DOI/Link</th><th>Điểm</th><th></th></tr></thead>
+            <tbody></tbody>
+          </table>
+          <button type="button" class="add" onclick="addRow('baiBao')">+ Thêm công trình</button>
+          <div class="summary"><span>Tổng số bài: <b id="tongBai">0</b></span><span>Tổng điểm: <b id="tongDiem">0</b></span></div>
+        </section>
+
+        <section class="block">
+          <h2>V. MINH CHỨNG</h2>
+          <label class="full">Link Google Drive/OneDrive chứa minh chứng <input name="minhChung" placeholder="Dán link thư mục minh chứng" /></label>
+          <label class="full">Ghi chú <textarea name="ghiChu" rows="4"></textarea></label>
+        </section>
+
+        <div class="actions">
+          <button type="button" onclick="window.print()">In / Lưu PDF</button>
+          <button type="submit" class="primary">Gửi hồ sơ</button>
+        </div>
+        <p id="status"></p>
+      </form>
+    </section>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>
