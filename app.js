@@ -1,4 +1,4 @@
-const WEB_APP_URL = "PASTE_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE";
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxl6cBEoCXorhLarBlMocJvPet3RyLP1McDKXzUSa5oKFq8luYWGHqc6D3sEj5Vv0ZIBw/exec";
 
 function addRow(type){
   const configs={
