@@ -72,7 +72,9 @@
           </table>
           <button type="button" class="add" onclick="addRow('deTai')">+ Thêm đề tài</button>
 
-          <h3>2. Các công trình khoa học đã công bố (Chỉ kê khai các bài báo là Tác giả đầu hoặc tác giả liên hệ danh mục HDGS <span style="color:red;font-weight:bold;">0,75 điểm</span> trở lên trong 5 năm tính đến (từ T6/2021 - nay))</h3>
+          <h3>2. Các công trình khoa học đã công bố
+            <span class="note-red">(Chỉ kê khai các bài báo là <b>tác giả đầu</b> hoặc <b>tác giả liên hệ</b>, danh mục HDGS <b>0,75 điểm trở lên</b>, <b>trong 5 năm</b> tính đến T6/2021 - nay)</span>
+          </h3>
           <table id="baiBaoTable">
             <thead><tr><th>Tên công trình</th><th>Năm</th><th>Tạp chí/NXB</th><th>Loại</th><th>Q</th><th>Vai trò</th><th>DOI/Link</th><th>Điểm</th><th></th></tr></thead>
             <tbody></tbody>
@@ -88,9 +90,11 @@
         </section>
 
         <div class="actions">
-          <button type="button" onclick="window.print()">In / Lưu PDF</button>
+          <button type="button" onclick="exportPDF_LLKH()">Xuất PDF LLKH từ phiếu đang nhập</button>
+          <button type="button" onclick="window.print()">In form</button>
           <button type="submit" class="primary">Gửi hồ sơ</button>
         </div>
+        <p class="admin-link"><a href="admin.html">Mở trang quản trị để xuất PDF từ dữ liệu đã gửi</a></p>
         <p id="status"></p>
       </form>
     </section>
