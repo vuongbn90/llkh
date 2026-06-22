@@ -1,6 +1,6 @@
 // === CONFIG ===
 // Thay URL này bằng Web App URL mới nhất sau khi Deploy Apps Script.
-const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzV0GgeOxo0FTUHt7rGq2d8Xn3K8a-z5nqxlaaTGObxPUsS4yCwXSyrnUnjW-kixnC70Q/exec";
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwc91LnQhkkWstPsa4Zm7KijNTFynTk4d6URyPbn-t5r_nzir0L0Gcmw1BXrILs0NIs/exec";
 let profiles = [];
 
 function jsonp(params) {
