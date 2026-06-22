@@ -1,4 +1,4 @@
-const SPREADSHEET_ID = 'PASTE_GOOGLE_SHEET_ID_HERE';
+const SPREADSHEET_ID = 'https://script.google.com/macros/s/AKfycbzwYy45J92rYWixAEn4LYndYzb-5A4Dt0KV95FcbCotVcQGvZCw8XkVLjrA7XxTU62MnQ/exec';
 
 function doPost(e) {
   const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
