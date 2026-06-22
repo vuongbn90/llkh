@@ -1,6 +1,6 @@
 // === CONFIG ===
 // Thay URL này bằng Web App URL mới nhất sau khi Deploy Apps Script.
-const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxnB8raraXpkTA2_F6I5Jch85HVOkOB3g04A9M39hEHfPfTPJ2VIHTVk6h1Eo3VTftePw/exec";
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzV0GgeOxo0FTUHt7rGq2d8Xn3K8a-z5nqxlaaTGObxPUsS4yCwXSyrnUnjW-kixnC70Q/exec";
 
 const rowTemplates = {
   congTac: ['Thời gian', 'Nơi công tác', 'Công việc đảm nhiệm'],
