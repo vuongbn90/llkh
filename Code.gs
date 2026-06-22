@@ -1,4 +1,4 @@
-const SPREADSHEET_ID = 'https://script.google.com/macros/s/AKfycbzwYy45J92rYWixAEn4LYndYzb-5A4Dt0KV95FcbCotVcQGvZCw8XkVLjrA7XxTU62MnQ/exec';
+const SPREADSHEET_ID = '1Mbg42-zmS7KcduxqWS7KbyraqX0PQ1gDfRiEkFSgkSM';
 
 function doPost(e) {
   const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
