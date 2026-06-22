@@ -1,4 +1,4 @@
-const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxl6cBEoCXorhLarBlMocJvPet3RyLP1McDKXzUSa5oKFq8luYWGHqc6D3sEj5Vv0ZIBw/exec";
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzwYy45J92rYWixAEn4LYndYzb-5A4Dt0KV95FcbCotVcQGvZCw8XkVLjrA7XxTU62MnQ/exec";
 let profiles = [];
 
 function jsonp(params) {
