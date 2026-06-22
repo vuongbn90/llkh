@@ -1,29 +1,52 @@
+// ===============================
+// LLKH PORTAL V5 - GOOGLE APPS SCRIPT
+// ===============================
+// 1) Thay SPREADSHEET_ID bằng ID Google Sheet, KHÔNG dùng Web App URL.
+// 2) Deploy > New deployment > Web app.
+// 3) Execute as: Me. Who has access: Anyone.
+// 4) Sau mỗi lần sửa Code.gs: Deploy > Manage deployments > Edit > New version > Deploy.
+
 const SPREADSHEET_ID = '1Mbg42-zmS7KcduxqWS7KbyraqX0PQ1gDfRiEkFSgkSM';
 
 function doPost(e) {
-  const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
-  const data = JSON.parse(e.postData.contents || '{}');
-  const profileId = data.profileId || Utilities.getUuid();
-  data.profileId = profileId;
-  appendMain(ss, data);
-  appendRows(ss, 'CongTac', data, data.congTac || []);
-  appendRows(ss, 'DeTai', data, data.deTai || []);
-  appendRows(ss, 'BaiBao', data, data.baiBao || []);
-  return jsonOutput({ status: 'ok', profileId: profileId }, e);
+  try {
+    const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
+    const data = JSON.parse((e.postData && e.postData.contents) || '{}');
+
+    const emailKey = String(data.email || '').trim().toLowerCase();
+    let profileId = data.profileId || findProfileIdByEmail(ss, emailKey) || Utilities.getUuid();
+    data.profileId = profileId;
+
+    // Neu GV gui lai ho so, xoa du lieu cu cua ProfileID truoc khi luu moi
+    deleteByProfileId(ss, profileId);
+
+    appendMain(ss, data);
+    appendRows(ss, 'CongTac', data, data.congTac || []);
+    appendRows(ss, 'DeTai', data, data.deTai || []);
+    appendRows(ss, 'BaiBao', data, data.baiBao || []);
+
+    return jsonOutput({ status: 'ok', profileId: profileId }, e);
+  } catch (err) {
+    return jsonOutput({ status: 'error', message: String(err && err.message ? err.message : err) }, e);
+  }
 }
 
 function doGet(e) {
-  const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
-  const action = (e.parameter.action || '').toLowerCase();
-  let result;
-  if (action === 'list') {
-    result = listProfiles(ss);
-  } else if (action === 'profile') {
-    result = getProfile(ss, e.parameter.id || '');
-  } else {
-    result = { status: 'ok', message: 'LLKH API is running. Use ?action=list or ?action=profile&id=PROFILE_ID' };
+  try {
+    const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
+    const action = String((e.parameter && e.parameter.action) || '').toLowerCase();
+    let result;
+    if (action === 'list') {
+      result = listProfiles(ss);
+    } else if (action === 'profile') {
+      result = getProfile(ss, (e.parameter && e.parameter.id) || '');
+    } else {
+      result = { status: 'ok', message: 'LLKH API V5 is running', actions: ['list', 'profile'] };
+    }
+    return jsonOutput(result, e);
+  } catch (err) {
+    return jsonOutput({ status: 'error', message: String(err && err.message ? err.message : err) }, e);
   }
-  return jsonOutput(result, e);
 }
 
 function jsonOutput(obj, e) {
@@ -37,12 +60,7 @@ function jsonOutput(obj, e) {
 }
 
 function appendMain(ss, d) {
-  const sh = getSheet(ss, 'HoSoGV', [
-    'ProfileID','ThoiGianGui','HoTen','GioiTinh','NgaySinh','NoiSinh','QueQuan','DanToc','HocVi','NamNuocHocVi',
-    'ChucDanh','NamBoNhiem','ChucVu','DonVi','DiaChi','DienThoai','Email',
-    'DH_NoiDaoTao','DH_Nganh','DH_Nuoc','DH_Nam','ThS_Nganh','ThS_ThongTin','TS_Nganh','TS_ThongTin','TenLuanAn','NgoaiNgu1','MucDo1','NgoaiNgu2','MucDo2',
-    'TongBai','TongDiem','MinhChung','GhiChu'
-  ]);
+  const sh = getSheet(ss, 'HoSoGV', mainHeaders());
   sh.appendRow([
     d.profileId, new Date(), d.hoTen, d.gioiTinh, d.ngaySinh, d.noiSinh, d.queQuan, d.danToc, d.hocVi, d.namNuocHocVi,
     d.chucDanh, d.namBoNhiem, d.chucVu, d.donVi, d.diaChi, d.dienThoai, d.email,
@@ -59,9 +77,18 @@ function appendRows(ss, sheetName, d, rows) {
   }[sheetName];
   const sh = getSheet(ss, sheetName, headers);
   rows.forEach(r => {
-    if (!r || r.join('').trim() === '') return;
-    sh.appendRow([d.profileId, new Date(), d.hoTen, d.email, ...r]);
+    if (!r || !Array.isArray(r) || r.join('').trim() === '') return;
+    sh.appendRow([d.profileId, new Date(), d.hoTen, d.email].concat(r));
   });
+}
+
+function mainHeaders() {
+  return [
+    'ProfileID','ThoiGianGui','HoTen','GioiTinh','NgaySinh','NoiSinh','QueQuan','DanToc','HocVi','NamNuocHocVi',
+    'ChucDanh','NamBoNhiem','ChucVu','DonVi','DiaChi','DienThoai','Email',
+    'DH_NoiDaoTao','DH_Nganh','DH_Nuoc','DH_Nam','ThS_Nganh','ThS_ThongTin','TS_Nganh','TS_ThongTin','TenLuanAn','NgoaiNgu1','MucDo1','NgoaiNgu2','MucDo2',
+    'TongBai','TongDiem','MinhChung','GhiChu'
+  ];
 }
 
 function getSheet(ss, name, headers) {
@@ -83,8 +110,30 @@ function rowsAsObjects(sh) {
   const headers = values.shift();
   return values.map(row => {
     const obj = {};
-    headers.forEach((h, i) => obj[h] = row[i] instanceof Date ? Utilities.formatDate(row[i], Session.getScriptTimeZone(), 'yyyy-MM-dd HH:mm:ss') : row[i]);
+    headers.forEach((h, i) => {
+      obj[h] = row[i] instanceof Date ? Utilities.formatDate(row[i], Session.getScriptTimeZone(), 'yyyy-MM-dd HH:mm:ss') : row[i];
+    });
     return obj;
+  });
+}
+
+function findProfileIdByEmail(ss, email) {
+  if (!email) return '';
+  const rows = rowsAsObjects(ss.getSheetByName('HoSoGV'));
+  for (let i = rows.length - 1; i >= 0; i--) {
+    if (String(rows[i].Email || '').trim().toLowerCase() === email) return rows[i].ProfileID;
+  }
+  return '';
+}
+
+function deleteByProfileId(ss, profileId) {
+  ['HoSoGV', 'CongTac', 'DeTai', 'BaiBao'].forEach(name => {
+    const sh = ss.getSheetByName(name);
+    if (!sh || sh.getLastRow() < 2) return;
+    const values = sh.getDataRange().getValues();
+    for (let r = values.length; r >= 2; r--) {
+      if (String(values[r - 1][0]) === String(profileId)) sh.deleteRow(r);
+    }
   });
 }
 
@@ -92,7 +141,7 @@ function listProfiles(ss) {
   const sh = ss.getSheetByName('HoSoGV');
   const rows = rowsAsObjects(sh);
   const latest = {};
-  rows.forEach(r => { latest[r.ProfileID] = r; });
+  rows.forEach(r => { if (r.ProfileID) latest[r.ProfileID] = r; });
   const data = Object.keys(latest).map(id => {
     const r = latest[id];
     return {
@@ -109,11 +158,11 @@ function listProfiles(ss) {
 }
 
 function getProfile(ss, id) {
-  const mainRows = rowsAsObjects(ss.getSheetByName('HoSoGV')).filter(r => r.ProfileID === id);
-  if (!mainRows.length) return { status: 'error', message: 'Không tìm thấy hồ sơ' };
+  const mainRows = rowsAsObjects(ss.getSheetByName('HoSoGV')).filter(r => String(r.ProfileID) === String(id));
+  if (!mainRows.length) return { status: 'error', message: 'Khong tim thay ho so' };
   const main = mainRows[mainRows.length - 1];
-  const congTac = rowsAsObjects(ss.getSheetByName('CongTac')).filter(r => r.ProfileID === id);
-  const deTai = rowsAsObjects(ss.getSheetByName('DeTai')).filter(r => r.ProfileID === id);
-  const baiBao = rowsAsObjects(ss.getSheetByName('BaiBao')).filter(r => r.ProfileID === id);
+  const congTac = rowsAsObjects(ss.getSheetByName('CongTac')).filter(r => String(r.ProfileID) === String(id));
+  const deTai = rowsAsObjects(ss.getSheetByName('DeTai')).filter(r => String(r.ProfileID) === String(id));
+  const baiBao = rowsAsObjects(ss.getSheetByName('BaiBao')).filter(r => String(r.ProfileID) === String(id));
   return { status: 'ok', data: { main: main, congTac: congTac, deTai: deTai, baiBao: baiBao } };
 }

@@ -1,65 +1,68 @@
-# Portal LLKH online - GitHub Pages + Google Sheets + Xuất PDF
+# Portal LLKH V5 - Form + Admin + Xuất PDF
 
-## 1. File trong gói
-- `index.html`: Form giảng viên nhập LLKH.
-- `admin.html`: Trang quản trị danh sách hồ sơ và nút xuất PDF.
-- `style.css`: Giao diện.
-- `app.js`: Xử lý form và gửi dữ liệu.
-- `admin.js`: Lấy dữ liệu từ Google Sheet và tạo bản LLKH để in/lưu PDF.
-- `Code.gs`: Google Apps Script API.
-- `CNAME`: Domain `llkh.fba.vaa.edu.vn`.
+## 1. Upload lên GitHub Pages
+Upload toàn bộ các file sau vào repository `llkh`:
 
-## 2. Upload lên GitHub
-Upload toàn bộ các file trên vào thư mục gốc repository `llkh`:
+- `index.html`
+- `admin.html`
+- `style.css`
+- `app.js`
+- `admin.js`
+- `CNAME`
 
-```text
-index.html
-admin.html
-style.css
-app.js
-admin.js
-Code.gs
-README.md
-CNAME
-```
+Sau đó vào Settings > Pages, chọn `main` và `/(root)`.
 
-Sau khi upload xong, link form là:
+## 2. Cấu hình Google Sheet
+Tạo Google Sheet hoặc dùng sheet hiện có. Copy ID trong URL:
 
-```text
-https://llkh.fba.vaa.edu.vn/
-```
+`https://docs.google.com/spreadsheets/d/SPREADSHEET_ID/edit`
 
-Trang quản trị/xuất PDF là:
+Dán ID vào dòng đầu trong `Code.gs`:
 
-```text
-https://llkh.fba.vaa.edu.vn/admin.html
-```
+`const SPREADSHEET_ID = '...';`
 
-## 3. Cập nhật Google Apps Script
-1. Mở Google Sheet đang nhận dữ liệu.
-2. Vào `Extensions > Apps Script`.
-3. Xóa code cũ.
-4. Dán toàn bộ nội dung file `Code.gs` trong gói này.
-5. Thay `PASTE_GOOGLE_SHEET_ID_HERE` bằng Spreadsheet ID thật.
-6. Bấm Save.
-7. Deploy > Manage deployments > Edit > New version > Deploy.
-8. Copy Web app URL.
+## 3. Cấu hình Apps Script
+Trong Google Sheet: Extensions > Apps Script.
+Dán toàn bộ nội dung `Code.gs`.
+Deploy > New deployment > Web app:
 
-## 4. Cập nhật Web App URL
-Mở `app.js` và `admin.js`, bảo đảm dòng:
+- Execute as: Me
+- Who has access: Anyone
 
-```js
-const WEB_APP_URL = ".../exec";
-```
+Copy Web App URL dạng:
 
-là đúng Web app URL mới nhất của Google Apps Script.
+`https://script.google.com/macros/s/.../exec`
 
-## 5. Cách xuất PDF từ dữ liệu GV đã nhập
-1. GV điền form và bấm `Gửi hồ sơ`.
-2. Thầy mở `https://llkh.fba.vaa.edu.vn/admin.html`.
-3. Bấm `Tải danh sách`.
-4. Chọn giảng viên và bấm `Xuất PDF`.
-5. Cửa sổ LLKH mở ra, chọn `Save as PDF` hoặc in trực tiếp.
+## 4. Cấu hình Web App URL
+Dán Web App URL vào cả hai file:
 
-## 6. Lưu ý bảo mật
-Trang `admin.html` hiện chưa có đăng nhập. Không nên công khai link admin cho giảng viên nếu dữ liệu có thông tin cá nhân.
+- `app.js`
+- `admin.js`
+
+Tìm dòng:
+
+`const WEB_APP_URL = "...";`
+
+## 5. Sử dụng
+- Form giảng viên: `https://llkh.fba.vaa.edu.vn/`
+- Trang quản trị: `https://llkh.fba.vaa.edu.vn/admin.html`
+
+Trong trang quản trị, bấm `Xuất PDF` để mở mẫu LLKH rồi chọn `In / Lưu PDF`.
+
+## 6. Lưu ý quan trọng
+Sau mỗi lần sửa `Code.gs`, phải Deploy lại:
+
+Deploy > Manage deployments > Edit > Version: New version > Deploy.
+
+Nếu trang quản trị không tải được dữ liệu, kiểm tra:
+
+1. Web App URL trong `admin.js` đúng chưa.
+2. Apps Script đã Deploy bản mới chưa.
+3. Quyền Deploy là `Anyone` chưa.
+4. Test API bằng cách mở:
+
+`WEB_APP_URL?action=list&callback=test`
+
+Kết quả đúng có dạng:
+
+`test({"status":"ok","data":[...]});`
