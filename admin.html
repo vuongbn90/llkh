@@ -3,25 +3,29 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Quản trị LLKH - Xuất PDF</title>
+  <title>Admin LLKH - Xuất PDF</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <main class="page">
-    <section class="paper">
-      <div class="top-note">Trang quản trị</div>
-      <h1>DANH SÁCH HỒ SƠ LLKH ĐÃ GỬI</h1>
-      <p class="subtitle">Chọn giảng viên để xuất file PDF theo mẫu Lý lịch khoa học</p>
-      <div class="actions" style="justify-content:space-between">
-        <a href="index.html"><button type="button">← Về form nhập LLKH</button></a>
-        <button type="button" onclick="loadAdminList()">Tải lại danh sách</button>
+    <section class="paper admin-panel">
+      <div class="top-note">Khoa Quản trị kinh doanh - Học viện Hàng không Việt Nam</div>
+      <h1>QUẢN TRỊ HỒ SƠ LLKH</h1>
+      <p class="subtitle">Danh sách giảng viên đã gửi hồ sơ và xuất PDF theo mẫu Lý lịch khoa học</p>
+
+      <div class="admin-toolbar no-print">
+        <button type="button" onclick="loadProfiles()">Tải danh sách</button>
+        <input id="searchBox" placeholder="Tìm theo họ tên/email/đơn vị" oninput="renderList()" />
       </div>
-      <section class="block">
-        <div id="adminList">Đang tải dữ liệu...</div>
-      </section>
-      <p class="hint">Lưu ý: chức năng này lấy dữ liệu từ Google Sheet thông qua Google Apps Script. Hồ sơ cũ trước khi cập nhật Code.gs có thể chưa đủ mã ProfileID.</p>
+      <p id="adminStatus" class="err"></p>
+      <table id="profileTable">
+        <thead>
+          <tr><th>Thời gian gửi</th><th>Họ tên</th><th>Email</th><th>Đơn vị</th><th>Tổng bài</th><th>Tổng điểm</th><th></th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
     </section>
   </main>
-  <script src="app.js"></script>
+  <script src="admin.js"></script>
 </body>
 </html>
