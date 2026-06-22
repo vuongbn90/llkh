@@ -6,7 +6,7 @@
 // 3) Execute as: Me. Who has access: Anyone.
 // 4) Sau mỗi lần sửa Code.gs: Deploy > Manage deployments > Edit > New version > Deploy.
 
-const SPREADSHEET_ID = '1Mbg42-zmS7KcduxqWS7KbyraqX0PQ1gDfRiEkFSgkSM';
+const SPREADSHEET_ID = '1nApv6y56P65XK_eDF0Skdd9iFH1uDz-P0SRYQSb9jjo';
 
 function doPost(e) {
   try {
