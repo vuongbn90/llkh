@@ -78,7 +78,7 @@
           <h3>2. Các công trình khoa học đã công bố (Chỉ kê khai các bài báo là <span class="red">tác giả đầu</span> hoặc <span class="red">tác giả liên hệ</span>, đạt <span class="red">0,75 điểm trở lên</span> và <span class="red">trong 5 năm</span> tính đến thời điểm hiện tại)</h3>
           <p class="hint">Nếu tạp chí có trong sheet <b>DanhMucTapChi</b>, hệ thống tự tính điểm theo tên tạp chí. Nếu không có trong danh mục, chọn đúng loại tạp chí/công bố để hệ thống gợi ý điểm tối đa.</p>
 
-          <table id="baiBaoTable" class="wide-table">
+          <div class="table-scroll"><table id="baiBaoTable" class="wide-table article-table">
             <thead>
               <tr>
                 <th>Tên công trình</th>
@@ -95,7 +95,7 @@
               </tr>
             </thead>
             <tbody></tbody>
-          </table>
+          </table></div>
           <button type="button" class="add" onclick="addRow('baiBao')">+ Thêm công trình</button>
           <div class="summary"><span>Tổng số bài: <b id="tongBai">0</b></span><span>Tổng điểm: <b id="tongDiem">0</b></span></div>
         </section>

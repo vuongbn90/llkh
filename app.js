@@ -2,7 +2,7 @@
 // LLKH PORTAL - FRONTEND
 // Bản không dùng ISSN/ISBN; tự tính điểm theo tên tạp chí trong sheet DanhMucTapChi
 // ===============================
-const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxr4LCM5r1R3tRlTGJk6a6NgmasS5fefB0x3uTJLClfkzwCjXWzYZJV9qMNI6r16OptMQ/exec";
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzZcKE7XjgaObG9TKvmUCnQ7z5Rzb7chUtqBis-CjgmsqzFuTcmt8jP6Gz1iWNpEknhDg/exec";
 
 let HDGS_CATALOG = [];
 const LOCAL_HDGS_CATALOG = [
@@ -149,14 +149,14 @@ function addRow(type){
   } else if(type === 'baiBao'){
     tr.innerHTML = `
       <td><input name="baiBao_tenBai" /></td>
-      <td><input name="baiBao_namBai" type="number" min="1900" max="2100" oninput="updateArticleRow(this.closest('tr'))" /></td>
+      <td><input class="year-input" name="baiBao_namBai" type="number" min="1900" max="2100" placeholder="2025" oninput="updateArticleRow(this.closest('tr'))" /></td>
       <td><input name="baiBao_tapChi" list="journalCatalogList" placeholder="Gõ/chọn tên tạp chí" oninput="updateArticleRow(this.closest('tr'))" /></td>
       <td><select class="pub-type" name="baiBao_loaiTinhDiem" onchange="updateArticleRow(this.closest('tr'))"><option value=""></option>${typeOptions()}</select></td>
       <td><select name="baiBao_qif" onchange="updateArticleRow(this.closest('tr'))">${Q_OPTIONS.map(v=>`<option>${v}</option>`).join('')}</select></td>
       <td><select name="baiBao_vaiTro" onchange="updateArticleRow(this.closest('tr'))">${ROLE_OPTIONS.map(v=>`<option>${v}</option>`).join('')}</select></td>
       <td><input name="baiBao_doi" /></td>
-      <td><input class="score-readonly" name="baiBao_diemToiDa" type="number" step="0.25" readonly /></td>
-      <td><input name="baiBao_diemDeXuat" type="number" step="0.25" min="0" oninput="updateArticleRow(this.closest('tr'), true)" /></td>
+      <td><input class="score-readonly score-input" name="baiBao_diemToiDa" type="number" step="0.25" readonly /></td>
+      <td><input class="score-input" name="baiBao_diemDeXuat" type="number" step="0.25" min="0" oninput="updateArticleRow(this.closest('tr'), true)" /></td>
       <td class="status-cell"><span class="score-warn">Chưa kiểm tra</span></td>
       <td><button type="button" class="remove" onclick="this.closest('tr').remove();calcSummary()">Xóa</button></td>`;
   }

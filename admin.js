@@ -2,7 +2,7 @@
 // LLKH PORTAL - ADMIN
 // Bản không dùng ISSN/ISBN trong xuất PDF
 // ===============================
-const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxr4LCM5r1R3tRlTGJk6a6NgmasS5fefB0x3uTJLClfkzwCjXWzYZJV9qMNI6r16OptMQ/exec";
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzZcKE7XjgaObG9TKvmUCnQ7z5Rzb7chUtqBis-CjgmsqzFuTcmt8jP6Gz1iWNpEknhDg/exec";
 let profiles = [];
 
 function jsonp(params){

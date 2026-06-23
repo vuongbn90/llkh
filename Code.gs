@@ -3,7 +3,7 @@
 // Bản không dùng ISSN/ISBN; tự tính điểm theo tên tạp chí trong sheet DanhMucTapChi
 // ===============================
 // Thay bằng ID Google Sheet của Thầy.
-const SPREADSHEET_ID = '1nApv6y56P65XK_eDF0Skdd9iFH1uDz-P0SRYQSb9jjo';
+const SPREADSHEET_ID = '1Mbg42-zmS7KcduxqWS7KbyraqX0PQ1gDfRiEkFSgkSM';
 
 function doPost(e) {
   try {
@@ -232,7 +232,7 @@ function scoreRules_() {
   return [
     {code:'SCI_IF3_AHCI', label:'SCI/SCIE/SSCI IF ≥ 3 hoặc A&HCI', max:3.00},
     {code:'SCI_IF_LT3_SCOPUS_Q1', label:'SCI/SCIE/SSCI IF < 3 hoặc Scopus Q1', max:2.00},
-    {code:'ESCI_SCOPUS_Q2,3,4', label:'ESCI hoặc Scopus Q2,3,4', max:1.50},
+    {code:'ESCI_SCOPUS_Q2', label:'ESCI hoặc Scopus Q2', max:1.50},
     {code:'ACI', label:'ACI', max:1.25},
     {code:'QT_KHAC', label:'Tạp chí quốc tế khác có ISSN/phản biện', max:1.00},
     {code:'TRONG_NUOC_KHAC', label:'Tạp chí khoa học trong nước khác', max:0.50},
