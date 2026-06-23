@@ -1,148 +1,310 @@
-// === CONFIG ===
-// Thay URL này bằng Web App URL mới nhất sau khi Deploy Apps Script.
-const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwc91LnQhkkWstPsa4Zm7KijNTFynTk4d6URyPbn-t5r_nzir0L0Gcmw1BXrILs0NIs/exec";
+// ===============================
+// LLKH PORTAL - FRONTEND
+// Bản không dùng ISSN/ISBN; tự tính điểm theo tên tạp chí trong sheet DanhMucTapChi
+// ===============================
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzZcKE7XjgaObG9TKvmUCnQ7z5Rzb7chUtqBis-CjgmsqzFuTcmt8jP6Gz1iWNpEknhDg/exec";
 
-const rowTemplates = {
-  congTac: ['Thời gian', 'Nơi công tác', 'Công việc đảm nhiệm'],
-  deTai: ['Tên đề tài', 'Năm bắt đầu/hoàn thành', 'Cấp đề tài', 'Trách nhiệm tham gia'],
-  baiBao: ['Tên công trình', 'Năm', 'Tạp chí/NXB', 'Loại', 'Q', 'Vai trò', 'DOI/Link', 'Điểm']
-};
+let HDGS_CATALOG = [];
+const LOCAL_HDGS_CATALOG = [
+  {ten:'Journal of Asian Business and Economic Studies', loai:'Tạp chí Scopus', diem:1.50, ghiChu:'Dữ liệu mẫu HĐGS 2025'},
+  {ten:'Journal of Economics and Development', loai:'Tạp chí Scopus', diem:1.50, ghiChu:'Dữ liệu mẫu HĐGS 2025'},
+  {ten:'Journal of Finance and Accountancy Research', loai:'Tạp chí', diem:1.00, ghiChu:'Dữ liệu mẫu HĐGS 2025'},
+  {ten:'Tạp chí Công Thương', loai:'Tạp chí trong nước', diem:0.50, ghiChu:'Dữ liệu mẫu HĐGS 2025'},
+  {ten:'Nghiên cứu Kinh tế', loai:'Tạp chí trong nước', diem:1.00, ghiChu:'Dữ liệu mẫu HĐGS 2025'},
+  {ten:'Kinh tế và Dự báo', loai:'Tạp chí trong nước', diem:0.75, ghiChu:'Dữ liệu mẫu HĐGS 2025'},
+  {ten:'Tạp chí Tài chính', loai:'Tạp chí trong nước', diem:0.75, ghiChu:'Dữ liệu mẫu HĐGS 2025'},
+  {ten:'Tạp chí Khoa học và Công nghệ', loai:'Tạp chí trong nước', diem:0.75, ghiChu:'Dữ liệu mẫu HĐGS 2025'},
+  {ten:'Khoa học Thương mại', loai:'Tạp chí trong nước', diem:0.75, ghiChu:'Dữ liệu mẫu HĐGS 2025'},
+  {ten:'Tài chính Doanh nghiệp', loai:'Tạp chí trong nước', diem:0.50, ghiChu:'Dữ liệu mẫu HĐGS 2025'}
+];
 
-function addRow(type, values = []) {
+const PUB_TYPES = [
+  {code:'DM_HDGS', label:'Tạp chí trong danh mục HĐGS 2025', max:1.00, catalog:true},
+  {code:'SCI_IF3_AHCI', label:'SCI/SCIE/SSCI IF ≥ 3 hoặc A&HCI', max:3.00},
+  {code:'SCI_IF_LT3_SCOPUS_Q1', label:'SCI/SCIE/SSCI IF < 3 hoặc Scopus Q1', max:2.00},
+  {code:'ESCI_SCOPUS_Q2', label:'ESCI hoặc Scopus Q2', max:1.50},
+  {code:'ACI', label:'ACI', max:1.25},
+  {code:'QT_KHAC', label:'Tạp chí quốc tế khác có ISSN/phản biện', max:1.00},
+  {code:'TRONG_NUOC_KHAC', label:'Tạp chí khoa học trong nước khác', max:0.50},
+  {code:'CONF_QT', label:'Báo cáo khoa học hội thảo quốc tế', max:1.00},
+  {code:'CONF_QG', label:'Báo cáo khoa học hội thảo quốc gia', max:0.50},
+  {code:'SACH_CHUONG_SACH', label:'Sách/Chương sách khoa học', max:1.00},
+  {code:'KHAC_CAN_RASOAT', label:'Khác - cần Hội đồng rà soát', max:0.00}
+];
+
+const ROLE_OPTIONS = ['', 'Tác giả đầu', 'Tác giả liên hệ', 'Tác giả đầu & liên hệ', 'Đồng tác giả', 'Khác'];
+const Q_OPTIONS = ['', 'Q1', 'Q2', 'Q3', 'Q4', 'IF ≥ 3', 'IF < 3', 'Không áp dụng'];
+
+function normalizeText(v){
+  return String(v || '')
+    .toLowerCase()
+    .normalize('NFD').replace(/[\u0300-\u036f]/g,'')
+    .replace(/đ/g,'d')
+    .replace(/[^a-z0-9]+/g,' ')
+    .trim();
+}
+
+function escAttr(v){
+  return String(v == null ? '' : v).replace(/[&<>\"]/g, s => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[s]));
+}
+
+function ensureJournalDatalist(){
+  let dl = document.getElementById('journalCatalogList');
+  if(!dl){
+    dl = document.createElement('datalist');
+    dl.id = 'journalCatalogList';
+    document.body.appendChild(dl);
+  }
+  dl.innerHTML = HDGS_CATALOG
+    .map(j => `<option value="${escAttr(j.ten)}">${escAttr((j.loai || '') + (j.diem ? ' - ' + j.diem + ' điểm' : ''))}</option>`)
+    .join('');
+}
+
+function findJournalInCatalog(name){
+  const n = normalizeText(name);
+  if(!n) return null;
+
+  const exact = HDGS_CATALOG.find(j => normalizeText(j.ten) === n);
+  if(exact) return exact;
+
+  if(n.length >= 8){
+    const partial = HDGS_CATALOG.find(j => {
+      const jn = normalizeText(j.ten);
+      return jn && (jn.includes(n) || n.includes(jn));
+    });
+    if(partial) return partial;
+  }
+  return null;
+}
+
+function jsonpGet(params){
+  return new Promise((resolve, reject) => {
+    const callback = 'llkhGet_' + Date.now() + '_' + Math.floor(Math.random()*100000);
+    const url = new URL(WEB_APP_URL);
+    Object.keys(params).forEach(k => url.searchParams.set(k, params[k]));
+    url.searchParams.set('callback', callback);
+
+    const script = document.createElement('script');
+    const timer = setTimeout(() => {
+      delete window[callback]; script.remove(); reject(new Error('Hết thời gian chờ API'));
+    }, 15000);
+
+    window[callback] = res => { clearTimeout(timer); delete window[callback]; script.remove(); resolve(res); };
+    script.onerror = () => { clearTimeout(timer); delete window[callback]; script.remove(); reject(new Error('Không tải được API')) };
+    script.src = url.toString();
+    document.body.appendChild(script);
+  });
+}
+
+async function loadJournalCatalog(){
+  HDGS_CATALOG = LOCAL_HDGS_CATALOG.slice();
+  try{
+    if(!WEB_APP_URL.includes('PASTE_')){
+      const data = await jsonpGet({action:'catalog'});
+      if(data && data.status === 'ok' && Array.isArray(data.data) && data.data.length){
+        HDGS_CATALOG = data.data.map(x => ({
+          ten: x.TenTapChi || x.ten || x.Ten || '',
+          loai: x.Loai || x.loai || '',
+          diem: Number(x.DiemToiDa || x.Diem || x.diem || 0),
+          ghiChu: x.GhiChu || x.ghiChu || ''
+        })).filter(x => x.ten);
+      }
+    }
+  }catch(err){
+    console.warn('Không nạp được DanhMucTapChi từ Apps Script, dùng danh mục mẫu cục bộ.', err);
+  }
+  ensureJournalDatalist();
+}
+
+function typeOptions(){
+  return PUB_TYPES.map(t => `<option value="${t.code}" data-max="${t.max}">${t.label}</option>`).join('');
+}
+
+function getTypeConfig(code){
+  return PUB_TYPES.find(t => t.code === code) || {max:0, label:'', catalog:false};
+}
+
+function isEligibleRole(role){
+  return role === 'Tác giả đầu' || role === 'Tác giả liên hệ' || role === 'Tác giả đầu & liên hệ';
+}
+
+function addRow(type){
   const tbody = document.querySelector(`#${type}Table tbody`);
-  if (!tbody) return;
+  if(!tbody) return;
   const tr = document.createElement('tr');
-  const cols = rowTemplates[type];
-  tr.innerHTML = cols.map((placeholder, i) => {
-    const val = values[i] || '';
-    if (type === 'baiBao' && placeholder === 'Loại') {
-      return `<td><select><option></option><option>WoS</option><option>Scopus</option><option>HDGS</option><option>Trong nước</option><option>Khác</option></select></td>`;
-    }
-    if (type === 'baiBao' && placeholder === 'Q') {
-      return `<td><select><option></option><option>Q1</option><option>Q2</option><option>Q3</option><option>Q4</option><option>Không xếp Q</option></select></td>`;
-    }
-    if (type === 'baiBao' && placeholder === 'Vai trò') {
-      return `<td><select><option></option><option>Tác giả đầu</option><option>Tác giả liên hệ</option><option>Đồng tác giả</option></select></td>`;
-    }
-    if (type === 'baiBao' && placeholder === 'Điểm') {
-      return `<td><input type="number" min="0" step="0.01" placeholder="0.00" value="${escapeAttr(val)}" oninput="updateSummary()" /></td>`;
-    }
-    return `<td><input placeholder="${placeholder}" value="${escapeAttr(val)}" /></td>`;
-  }).join('') + `<td><button type="button" class="remove" onclick="this.closest('tr').remove();updateSummary();">Xóa</button></td>`;
+
+  if(type === 'congTac'){
+    tr.innerHTML = `
+      <td><input name="congTac_thoiGian" /></td>
+      <td><input name="congTac_noiCongTac" /></td>
+      <td><input name="congTac_congViec" /></td>
+      <td><button type="button" class="remove" onclick="this.closest('tr').remove()">Xóa</button></td>`;
+  } else if(type === 'deTai'){
+    tr.innerHTML = `
+      <td><input name="deTai_tenDeTai" /></td>
+      <td><input name="deTai_namDeTai" /></td>
+      <td><input name="deTai_capDeTai" /></td>
+      <td><input name="deTai_vaiTroDeTai" /></td>
+      <td><button type="button" class="remove" onclick="this.closest('tr').remove()">Xóa</button></td>`;
+  } else if(type === 'baiBao'){
+    tr.innerHTML = `
+      <td><input name="baiBao_tenBai" /></td>
+      <td><input name="baiBao_namBai" type="number" min="1900" max="2100" oninput="updateArticleRow(this.closest('tr'))" /></td>
+      <td><input name="baiBao_tapChi" list="journalCatalogList" placeholder="Gõ/chọn tên tạp chí" oninput="updateArticleRow(this.closest('tr'))" /></td>
+      <td><select class="pub-type" name="baiBao_loaiTinhDiem" onchange="updateArticleRow(this.closest('tr'))"><option value=""></option>${typeOptions()}</select></td>
+      <td><select name="baiBao_qif" onchange="updateArticleRow(this.closest('tr'))">${Q_OPTIONS.map(v=>`<option>${v}</option>`).join('')}</select></td>
+      <td><select name="baiBao_vaiTro" onchange="updateArticleRow(this.closest('tr'))">${ROLE_OPTIONS.map(v=>`<option>${v}</option>`).join('')}</select></td>
+      <td><input name="baiBao_doi" /></td>
+      <td><input class="score-readonly" name="baiBao_diemToiDa" type="number" step="0.25" readonly /></td>
+      <td><input name="baiBao_diemDeXuat" type="number" step="0.25" min="0" oninput="updateArticleRow(this.closest('tr'), true)" /></td>
+      <td class="status-cell"><span class="score-warn">Chưa kiểm tra</span></td>
+      <td><button type="button" class="remove" onclick="this.closest('tr').remove();calcSummary()">Xóa</button></td>`;
+  }
   tbody.appendChild(tr);
-  updateSummary();
+  if(type === 'baiBao') updateArticleRow(tr);
 }
 
-function collectTable(type) {
-  return Array.from(document.querySelectorAll(`#${type}Table tbody tr`)).map(tr => {
-    return Array.from(tr.querySelectorAll('input,select')).map(el => el.value.trim());
-  }).filter(row => row.join('').trim() !== '');
+function updateArticleRow(tr, userEdited=false){
+  if(!tr) return;
+  const typeSel = tr.querySelector('[name="baiBao_loaiTinhDiem"]');
+  const yearEl = tr.querySelector('[name="baiBao_namBai"]');
+  const roleEl = tr.querySelector('[name="baiBao_vaiTro"]');
+  const maxEl = tr.querySelector('[name="baiBao_diemToiDa"]');
+  const scoreEl = tr.querySelector('[name="baiBao_diemDeXuat"]');
+  const statusEl = tr.querySelector('.status-cell');
+  const journalEl = tr.querySelector('[name="baiBao_tapChi"]');
+
+  const matchedJournal = findJournalInCatalog(journalEl ? journalEl.value : '');
+  if(matchedJournal && typeSel) typeSel.value = 'DM_HDGS';
+
+  const cfg = getTypeConfig(typeSel ? typeSel.value : '');
+  const max = matchedJournal ? Number(matchedJournal.diem || 0) : Number(cfg.max || 0);
+  if(maxEl) maxEl.value = max ? max.toFixed(2) : '';
+
+  if(scoreEl && !userEdited){
+    if(matchedJournal){
+      scoreEl.value = max ? max.toFixed(2) : '';
+      scoreEl.placeholder = 'Tự tính theo danh mục HĐGS';
+    } else if(cfg.catalog){
+      scoreEl.value = '';
+      scoreEl.placeholder = 'Chọn đúng tên tạp chí trong danh mục';
+    } else {
+      scoreEl.value = max ? max.toFixed(2) : '';
+    }
+  }
+
+  const score = Number(scoreEl && scoreEl.value ? scoreEl.value : 0);
+  const year = Number(yearEl && yearEl.value ? yearEl.value : 0);
+  const currentYear = new Date().getFullYear();
+  const inFiveYears = year >= currentYear - 5 && year <= currentYear;
+  const roleOk = isEligibleRole(roleEl ? roleEl.value : '');
+
+  let cls = 'score-warn';
+  let msg = 'Cần nhập đủ thông tin';
+
+  if(typeSel && typeSel.value){
+    if(score > max && max > 0){
+      cls = 'score-bad'; msg = 'Điểm vượt mức tối đa';
+    } else if(score >= 0.75 && roleOk && inFiveYears){
+      cls = 'score-ok';
+      msg = matchedJournal ? ('Đạt - tự tính theo danh mục: ' + matchedJournal.ten) : 'Đạt điều kiện kê khai';
+    } else {
+      const reasons = [];
+      if(score < 0.75) reasons.push('điểm < 0,75');
+      if(!roleOk) reasons.push('vai trò chưa phù hợp');
+      if(!inFiveYears) reasons.push('ngoài 5 năm');
+      msg = (matchedJournal ? ('Đã nhận diện danh mục: ' + matchedJournal.ten + '. ') : '') + 'Cần rà soát: ' + reasons.join(', ');
+    }
+  }
+
+  if(statusEl) statusEl.innerHTML = `<span class="${cls}">${msg}</span>`;
+  calcSummary();
 }
 
-function formToData() {
-  const form = document.getElementById('llkhForm');
-  const fd = new FormData(form);
-  const data = Object.fromEntries(fd.entries());
-  data.congTac = collectTable('congTac');
-  data.deTai = collectTable('deTai');
-  data.baiBao = collectTable('baiBao');
-  data.tongBai = String(data.baiBao.length);
-  data.tongDiem = String(sumDiem(data.baiBao));
-  return data;
+function calcSummary(){
+  const scores = [...document.querySelectorAll('input[name="baiBao_diemDeXuat"]')].map(x => parseFloat(x.value) || 0);
+  const count = [...document.querySelectorAll('#baiBaoTable tbody tr')]
+    .filter(tr => [...tr.querySelectorAll('input,select')].some(x => String(x.value || '').trim() !== '')).length;
+  const tongBai = document.getElementById('tongBai');
+  const tongDiem = document.getElementById('tongDiem');
+  if(tongBai) tongBai.textContent = count;
+  if(tongDiem) tongDiem.textContent = scores.reduce((a,b)=>a+b,0).toFixed(2).replace('.00','');
 }
 
-function sumDiem(rows) {
-  return rows.reduce((sum, r) => sum + (parseFloat(String(r[7] || '0').replace(',', '.')) || 0), 0).toFixed(2);
+function tableData(type){
+  const rows = [...document.querySelectorAll(`#${type}Table tbody tr`)];
+  if(type !== 'baiBao') return rows.map(r => [...r.querySelectorAll('input,select')].map(x => x.value));
+
+  return rows.map(r => {
+    const vals = [...r.querySelectorAll('input,select')].map(x => x.value);
+    const status = r.querySelector('.status-cell') ? r.querySelector('.status-cell').innerText.trim() : '';
+    vals.push(status);
+    return vals;
+  });
 }
 
-function updateSummary() {
-  const baiBao = collectTable('baiBao');
-  document.getElementById('tongBai').textContent = baiBao.length;
-  document.getElementById('tongDiem').textContent = sumDiem(baiBao);
+async function submitViaJsonp(data){
+  return new Promise((resolve, reject) => {
+    const callback = 'llkhSubmit_' + Date.now() + '_' + Math.floor(Math.random()*100000);
+    const url = new URL(WEB_APP_URL);
+    url.searchParams.set('action', 'submitJsonp');
+    url.searchParams.set('payload', JSON.stringify(data));
+    url.searchParams.set('callback', callback);
+
+    const script = document.createElement('script');
+    const timer = setTimeout(() => { delete window[callback]; script.remove(); reject(new Error('Hết thời gian chờ API')); }, 20000);
+    window[callback] = res => { clearTimeout(timer); delete window[callback]; script.remove(); resolve(res); };
+    script.onerror = () => { clearTimeout(timer); delete window[callback]; script.remove(); reject(new Error('Không gửi được dữ liệu')); };
+    script.src = url.toString();
+    document.body.appendChild(script);
+  });
 }
 
-async function submitForm(e) {
+document.getElementById('llkhForm').addEventListener('submit', async e => {
   e.preventDefault();
   const status = document.getElementById('status');
   status.className = '';
-  status.textContent = 'Đang gửi hồ sơ...';
-  const data = formToData();
-  try {
-    const res = await fetch(WEB_APP_URL, {
-      method: 'POST',
-      mode: 'cors',
-      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-      body: JSON.stringify(data)
-    });
-    const text = await res.text();
-    let json;
-    try { json = JSON.parse(text); } catch { json = { status: 'ok' }; }
-    if (json.status && json.status !== 'ok') throw new Error(json.message || 'Không gửi được hồ sơ');
-    if (json.profileId) {
-      document.getElementById('profileId').value = json.profileId;
-      localStorage.setItem('llkh_profileId', json.profileId);
-    }
-    status.className = 'ok';
-    status.textContent = 'Đã gửi hồ sơ thành công. Khoa có thể xuất PDF trong trang quản trị.';
-  } catch (err) {
+  const fd = new FormData(e.target);
+  const data = Object.fromEntries(fd.entries());
+  data.congTac = tableData('congTac');
+  data.deTai = tableData('deTai');
+  data.baiBao = tableData('baiBao');
+  data.tongBai = document.getElementById('tongBai').textContent;
+  data.tongDiem = document.getElementById('tongDiem').textContent;
+  data.submittedAt = new Date().toISOString();
+
+  if(WEB_APP_URL.includes('PASTE_')){
+    status.textContent = 'Bản demo: chưa gắn Google Apps Script URL.';
     status.className = 'err';
-    status.textContent = 'Không gửi được hồ sơ. Kiểm tra Web App URL, quyền Apps Script và Deploy mới. Chi tiết: ' + err.message;
+    console.log(data);
+    return;
   }
+
+  try{
+    status.textContent = 'Đang gửi...';
+    const res = await submitViaJsonp(data);
+    if(res.status !== 'ok') throw new Error(res.message || 'Không lưu được hồ sơ');
+    status.textContent = 'Đã gửi hồ sơ thành công.';
+    status.className = 'ok';
+    e.target.reset();
+    document.querySelector('#congTacTable tbody').innerHTML = '';
+    document.querySelector('#deTaiTable tbody').innerHTML = '';
+    document.querySelector('#baiBaoTable tbody').innerHTML = '';
+    initRows();
+  }catch(err){
+    status.textContent = err.message || 'Không gửi được. Vui lòng kiểm tra URL Apps Script.';
+    status.className = 'err';
+  }
+});
+
+function initRows(){
+  addRow('congTac');
+  addRow('deTai');
+  addRow('baiBao');
+  calcSummary();
 }
 
-function previewPDF_LLKH() {
-  const d = normalizedData(formToData());
-  const html = buildLLKHHtml(d);
-  const w = window.open('', '_blank');
-  w.document.open();
-  w.document.write(html);
-  w.document.close();
-  setTimeout(() => { w.focus(); }, 300);
-}
-
-function normalizedData(raw) {
-  const main = {
-    HoTen: raw.hoTen, GioiTinh: raw.gioiTinh, NgaySinh: raw.ngaySinh, NoiSinh: raw.noiSinh,
-    QueQuan: raw.queQuan, DanToc: raw.danToc, HocVi: raw.hocVi, NamNuocHocVi: raw.namNuocHocVi,
-    ChucDanh: raw.chucDanh, NamBoNhiem: raw.namBoNhiem, ChucVu: raw.chucVu, DonVi: raw.donVi,
-    DiaChi: raw.diaChi, DienThoai: raw.dienThoai, Email: raw.email,
-    DH_NoiDaoTao: raw.dhNoiDaoTao, DH_Nganh: raw.dhNganh, DH_Nuoc: raw.dhNuoc, DH_Nam: raw.dhNam,
-    ThS_Nganh: raw.thsNganh, ThS_ThongTin: raw.thsThongTin, TS_Nganh: raw.tsNganh, TS_ThongTin: raw.tsThongTin,
-    TenLuanAn: raw.tenLuanAn, NgoaiNgu1: raw.ngoaiNgu1, MucDo1: raw.mucDo1, NgoaiNgu2: raw.ngoaiNgu2, MucDo2: raw.mucDo2,
-    TongBai: raw.tongBai, TongDiem: raw.tongDiem, MinhChung: raw.minhChung, GhiChu: raw.ghiChu
-  };
-  return {
-    main,
-    congTac: raw.congTac.map(r => ({ ThoiGian: r[0], NoiCongTac: r[1], CongViec: r[2] })),
-    deTai: raw.deTai.map(r => ({ TenDeTai: r[0], Nam: r[1], CapDeTai: r[2], VaiTro: r[3] })),
-    baiBao: raw.baiBao.map(r => ({ TenBai: r[0], Nam: r[1], TapChi: r[2], Loai: r[3], Q: r[4], VaiTro: r[5], DOI: r[6], Diem: r[7] }))
-  };
-}
-
-function buildLLKHHtml(d) {
-  const m = d.main || {};
-  const rows = (arr, cols) => {
-    const data = arr && arr.length ? arr : [{}];
-    return data.map((r, idx) => '<tr>' + cols.map(c => `<td>${esc(typeof c === 'function' ? c(r, idx) : (r[c] || ''))}</td>`).join('') + '</tr>').join('');
-  };
-  return `<!doctype html><html lang="vi"><head><meta charset="utf-8"><title>LLKH - ${esc(m.HoTen || '')}</title>${pdfStyle()}</head><body><div class="print-actions"><button onclick="window.print()">In / Lưu PDF</button></div><div class="page">
-    <div class="note">Phụ lục IV - Mẫu thu thập thông tin giảng viên tham gia đào tạo nghiên cứu sinh</div>
-    <div class="title">LÝ LỊCH KHOA HỌC</div>
-    <div class="sub">Giảng viên tham gia giảng dạy, hội đồng và hướng dẫn Tiến sĩ Quản trị kinh doanh</div>
-    <h2>I. LÝ LỊCH SƠ LƯỢC</h2>
-    <table class="no-border"><tr><td><b>Họ và tên:</b> ${esc(m.HoTen)}</td><td><b>Giới tính:</b> ${esc(m.GioiTinh)}</td></tr><tr><td><b>Ngày, tháng, năm sinh:</b> ${esc(m.NgaySinh)}</td><td><b>Nơi sinh:</b> ${esc(m.NoiSinh)}</td></tr><tr><td><b>Quê quán:</b> ${esc(m.QueQuan)}</td><td><b>Dân tộc:</b> ${esc(m.DanToc)}</td></tr><tr><td><b>Học vị cao nhất:</b> ${esc(m.HocVi)}</td><td><b>Năm, nước nhận học vị:</b> ${esc(m.NamNuocHocVi)}</td></tr><tr><td><b>Chức danh khoa học cao nhất:</b> ${esc(m.ChucDanh)}</td><td><b>Năm bổ nhiệm:</b> ${esc(m.NamBoNhiem)}</td></tr><tr><td colspan="2"><b>Chức vụ hiện tại:</b> ${esc(m.ChucVu)}</td></tr><tr><td colspan="2"><b>Đơn vị công tác:</b> ${esc(m.DonVi)}</td></tr><tr><td colspan="2"><b>Địa chỉ liên lạc:</b> ${esc(m.DiaChi)}</td></tr><tr><td><b>Điện thoại:</b> ${esc(m.DienThoai)}</td><td><b>Email:</b> ${esc(m.Email)}</td></tr></table>
-    <h2>II. QUÁ TRÌNH ĐÀO TẠO</h2><p><b>1. Đại học:</b> Nơi đào tạo: ${esc(m.DH_NoiDaoTao)}; Ngành học: ${esc(m.DH_Nganh)}; Nước đào tạo: ${esc(m.DH_Nuoc)}; Năm tốt nghiệp: ${esc(m.DH_Nam)}.</p><p><b>2. Sau đại học:</b></p><p>- Thạc sĩ chuyên ngành: ${esc(m.ThS_Nganh)}; Năm cấp bằng/Nơi đào tạo: ${esc(m.ThS_ThongTin)}.</p><p>- Tiến sĩ chuyên ngành: ${esc(m.TS_Nganh)}; Năm cấp bằng/Nơi đào tạo: ${esc(m.TS_ThongTin)}.</p><p><b>Tên luận án:</b> ${esc(m.TenLuanAn)}</p><p><b>3. Ngoại ngữ:</b> ${esc(m.NgoaiNgu1)} - ${esc(m.MucDo1)}; ${esc(m.NgoaiNgu2)} - ${esc(m.MucDo2)}</p>
-    <h2>III. QUÁ TRÌNH CÔNG TÁC CHUYÊN MÔN</h2><table><thead><tr><th>TT</th><th>Thời gian</th><th>Nơi công tác</th><th>Công việc đảm nhiệm</th></tr></thead><tbody>${rows(d.congTac, [(r,i)=>i+1,'ThoiGian','NoiCongTac','CongViec'])}</tbody></table>
-    <h2>IV. QUÁ TRÌNH NGHIÊN CỨU KHOA HỌC</h2><p><b>1. Các đề tài nghiên cứu khoa học đã và đang tham gia</b></p><table><thead><tr><th>TT</th><th>Tên đề tài nghiên cứu</th><th>Năm bắt đầu/hoàn thành</th><th>Đề tài cấp</th><th>Trách nhiệm tham gia</th></tr></thead><tbody>${rows(d.deTai, [(r,i)=>i+1,'TenDeTai','Nam','CapDeTai','VaiTro'])}</tbody></table><p><b>2. Các công trình khoa học đã công bố</b></p><table><thead><tr><th>TT</th><th>Tên công trình</th><th>Năm công bố</th><th>Tạp chí/NXB</th><th>Loại</th><th>Q</th><th>Vai trò</th><th>DOI/Link</th><th>Điểm</th></tr></thead><tbody>${rows(d.baiBao, [(r,i)=>i+1,'TenBai','Nam','TapChi','Loai','Q','VaiTro','DOI','Diem'])}</tbody></table><p><b>Tổng số bài:</b> ${esc(m.TongBai || 0)} &nbsp;&nbsp;&nbsp; <b>Tổng điểm:</b> ${esc(m.TongDiem || 0)}</p><p><b>Minh chứng:</b> ${esc(m.MinhChung)}</p><p><b>Ghi chú:</b> ${esc(m.GhiChu)}</p><div class="sign"><p>..........., ngày ..... tháng ..... năm ......</p><p><b>Người khai</b></p><p><i>(Ký và ghi rõ họ tên)</i></p><br><br><p><b>${esc(m.HoTen)}</b></p></div>
-  </div></body></html>`;
-}
-
-function pdfStyle(){return `<style>body{font-family:"Times New Roman",serif;color:#000;background:#fff;font-size:13pt;line-height:1.35}.page{max-width:794px;margin:0 auto;padding:24px 34px}.note{text-align:center;font-style:italic}.title{text-align:center;font-weight:bold;font-size:22pt;margin:12px 0}.sub{text-align:center;font-weight:bold;font-size:14pt;margin-bottom:18px}h2{font-size:14pt;margin:18px 0 8px;text-transform:uppercase}table{width:100%;border-collapse:collapse;margin:8px 0 12px}th,td{border:1px solid #000;padding:5px;vertical-align:top}th{text-align:center;font-weight:bold}.no-border td{border:0;padding:3px 4px}.sign{width:45%;margin-left:auto;text-align:center;margin-top:26px}.print-actions{position:fixed;right:18px;top:18px}button{padding:10px 14px;font-weight:bold}@media print{.print-actions{display:none}.page{padding:0;max-width:none}body{font-size:12pt}@page{size:A4;margin:18mm}}</style>`}
-function esc(v){return String(v == null ? '' : v).replace(/[&<>\"]/g, s => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[s]));}
-function escapeAttr(v){return esc(v).replace(/'/g,'&#39;');}
-
-document.addEventListener('DOMContentLoaded', () => {
-  document.getElementById('llkhForm')?.addEventListener('submit', submitForm);
-  document.getElementById('profileId').value = localStorage.getItem('llkh_profileId') || '';
-  addRow('congTac'); addRow('deTai'); addRow('baiBao');
+document.addEventListener('DOMContentLoaded', async () => {
+  await loadJournalCatalog();
+  initRows();
 });

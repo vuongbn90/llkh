@@ -16,6 +16,7 @@
 
       <form id="llkhForm">
         <input type="hidden" name="profileId" id="profileId" />
+
         <section class="block">
           <h2>I. LÝ LỊCH SƠ LƯỢC</h2>
           <div class="grid two">
@@ -74,9 +75,25 @@
           </table>
           <button type="button" class="add" onclick="addRow('deTai')">+ Thêm đề tài</button>
 
-          <h3>2. Các công trình khoa học đã công bố (Chỉ kê khai các bài báo là <span class="red">Tác giả đầu</span> hoặc <span class="red">tác giả liên hệ</span> danh mục HDGS <span class="red">0,75 điểm trở lên</span> <span class="red">trong 5 năm</span> tính đến thời điểm hiện tại)</h3>
-          <table id="baiBaoTable">
-            <thead><tr><th>Tên công trình</th><th>Năm</th><th>Tạp chí/NXB</th><th>Loại</th><th>Q</th><th>Vai trò</th><th>DOI/Link</th><th>Điểm</th><th></th></tr></thead>
+          <h3>2. Các công trình khoa học đã công bố (Chỉ kê khai các bài báo là <span class="red">tác giả đầu</span> hoặc <span class="red">tác giả liên hệ</span>, đạt <span class="red">0,75 điểm trở lên</span> và <span class="red">trong 5 năm</span> tính đến thời điểm hiện tại)</h3>
+          <p class="hint">Nếu tạp chí có trong sheet <b>DanhMucTapChi</b>, hệ thống tự tính điểm theo tên tạp chí. Nếu không có trong danh mục, chọn đúng loại tạp chí/công bố để hệ thống gợi ý điểm tối đa.</p>
+
+          <table id="baiBaoTable" class="wide-table">
+            <thead>
+              <tr>
+                <th>Tên công trình</th>
+                <th>Năm</th>
+                <th>Tạp chí/NXB/Hội thảo</th>
+                <th>Loại tính điểm</th>
+                <th>Q/IF/CiteScore</th>
+                <th>Vai trò</th>
+                <th>DOI/Link</th>
+                <th>Điểm tối đa</th>
+                <th>Điểm đề xuất</th>
+                <th>Trạng thái</th>
+                <th></th>
+              </tr>
+            </thead>
             <tbody></tbody>
           </table>
           <button type="button" class="add" onclick="addRow('baiBao')">+ Thêm công trình</button>
@@ -85,13 +102,11 @@
 
         <section class="block">
           <h2>V. MINH CHỨNG</h2>
-          <label class="full">Link Google Drive/OneDrive chứa minh chứng (nếu có) <input name="minhChung" placeholder="Dán link thư mục minh chứng" /></label>
+          <label class="full">Link Google Drive/OneDrive chứa minh chứng <input name="minhChung" placeholder="Dán link thư mục minh chứng" /></label>
           <label class="full">Ghi chú <textarea name="ghiChu" rows="4"></textarea></label>
         </section>
 
         <div class="actions">
-          
-          <button type="button" onclick="previewPDF_LLKH()">Xem/In LLKH</button>
           <button type="button" onclick="window.print()">In form</button>
           <button type="submit" class="primary">Gửi hồ sơ</button>
         </div>

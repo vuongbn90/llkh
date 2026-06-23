@@ -1,8 +1,14 @@
-# Portal LLKH V5 - Form + Admin + Xuất PDF
+# Portal LLKH - Bản tự tính điểm HĐGS, bỏ ISSN/ISBN
 
-## 1. Upload lên GitHub Pages
-Upload toàn bộ các file sau vào repository `llkh`:
+## Điểm mới
+- Đã bỏ cột ISSN/ISBN khỏi form bài báo.
+- Hệ thống tự dò tạp chí theo **Tên tạp chí/NXB/Hội thảo** trong sheet `DanhMucTapChi`.
+- Nếu tìm thấy tạp chí trong danh mục: tự điền `Loại tính điểm`, `Điểm tối đa`, `Điểm đề xuất`.
+- Nếu không tìm thấy: người dùng chọn `Loại tính điểm`, hệ thống tự gợi ý điểm tối đa theo nhóm tạp chí/công bố.
+- Trang admin xuất PDF cũng đã bỏ cột ISSN/ISBN.
 
+## Files cần upload lên GitHub Pages
+Upload các file sau vào repository `llkh`:
 - `index.html`
 - `admin.html`
 - `style.css`
@@ -10,59 +16,47 @@ Upload toàn bộ các file sau vào repository `llkh`:
 - `admin.js`
 - `CNAME`
 
-Sau đó vào Settings > Pages, chọn `main` và `/(root)`.
-
-## 2. Cấu hình Google Sheet
-Tạo Google Sheet hoặc dùng sheet hiện có. Copy ID trong URL:
+## Cấu hình Google Sheet
+Tạo hoặc dùng Google Sheet hiện có.
+Copy ID trong URL:
 
 `https://docs.google.com/spreadsheets/d/SPREADSHEET_ID/edit`
 
-Dán ID vào dòng đầu trong `Code.gs`:
+Dán ID vào dòng đầu file `Code.gs`:
 
 `const SPREADSHEET_ID = '...';`
 
-## 3. Cấu hình Apps Script
-Trong Google Sheet: Extensions > Apps Script.
-Dán toàn bộ nội dung `Code.gs`.
-Deploy > New deployment > Web app:
+## Cấu hình Apps Script
+Trong Google Sheet:
+1. Extensions > Apps Script.
+2. Dán toàn bộ `Code.gs`.
+3. Deploy > New deployment > Web app.
+4. Execute as: Me.
+5. Who has access: Anyone.
+6. Copy Web App URL dạng `https://script.google.com/macros/s/.../exec`.
+7. Dán URL này vào cả `app.js` và `admin.js` tại dòng `WEB_APP_URL`.
+8. Upload lại hai file JS lên GitHub.
 
-- Execute as: Me
-- Who has access: Anyone
+## Sheet DanhMucTapChi
+Apps Script tự tạo sheet `DanhMucTapChi` với các cột:
 
-Copy Web App URL dạng:
+| TenTapChi | Loai | DiemToiDa | GhiChu |
 
-`https://script.google.com/macros/s/.../exec`
+Để tự tính đúng toàn bộ danh mục HĐGS, Thầy paste danh mục đầy đủ vào sheet này. Không cần ISSN/ISBN.
 
-## 4. Cấu hình Web App URL
-Dán Web App URL vào cả hai file:
+Ví dụ:
 
-- `app.js`
-- `admin.js`
+| TenTapChi | Loai | DiemToiDa | GhiChu |
+|---|---|---:|---|
+| Journal of Economics and Development | Tạp chí Scopus | 1.5 | Theo danh mục HĐGS 2025 |
+| Tạp chí Công Thương | Tạp chí trong nước | 0.5 | Theo danh mục HĐGS 2025 |
 
-Tìm dòng:
-
-`const WEB_APP_URL = "...";`
-
-## 5. Sử dụng
+## Sử dụng
 - Form giảng viên: `https://llkh.fba.vaa.edu.vn/`
 - Trang quản trị: `https://llkh.fba.vaa.edu.vn/admin.html`
 
-Trong trang quản trị, bấm `Xuất PDF` để mở mẫu LLKH rồi chọn `In / Lưu PDF`.
-
-## 6. Lưu ý quan trọng
-Sau mỗi lần sửa `Code.gs`, phải Deploy lại:
-
-Deploy > Manage deployments > Edit > Version: New version > Deploy.
-
-Nếu trang quản trị không tải được dữ liệu, kiểm tra:
-
-1. Web App URL trong `admin.js` đúng chưa.
-2. Apps Script đã Deploy bản mới chưa.
-3. Quyền Deploy là `Anyone` chưa.
-4. Test API bằng cách mở:
-
-`WEB_APP_URL?action=list&callback=test`
-
-Kết quả đúng có dạng:
-
-`test({"status":"ok","data":[...]});`
+Nếu không thấy thay đổi sau khi upload, mở:
+`https://llkh.fba.vaa.edu.vn/?ver=30`
+hoặc
+`https://llkh.fba.vaa.edu.vn/admin.html?ver=30`
+để tránh cache trình duyệt.
