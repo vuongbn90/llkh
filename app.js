@@ -2,7 +2,7 @@
 // LLKH PORTAL - FRONTEND
 // Bản không dùng ISSN/ISBN; tự tính điểm theo tên tạp chí trong sheet DanhMucTapChi
 // ===============================
-const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzZcKE7XjgaObG9TKvmUCnQ7z5Rzb7chUtqBis-CjgmsqzFuTcmt8jP6Gz1iWNpEknhDg/exec";
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbw1lAUPxUSD5nYiArXwmltjuZmf2l-FXjTiUlCa3kgU5hdPbEQMhwDQFb7Dbfu9C4nR2g/exec";
 
 let HDGS_CATALOG = [];
 const LOCAL_HDGS_CATALOG = [
@@ -22,7 +22,7 @@ const PUB_TYPES = [
   {code:'DM_HDGS', label:'Tạp chí trong danh mục HĐGS 2025', max:1.00, catalog:true},
   {code:'SCI_IF3_AHCI', label:'SCI/SCIE/SSCI IF ≥ 3 hoặc A&HCI', max:3.00},
   {code:'SCI_IF_LT3_SCOPUS_Q1', label:'SCI/SCIE/SSCI IF < 3 hoặc Scopus Q1', max:2.00},
-  {code:'ESCI_SCOPUS_Q2', label:'ESCI hoặc Scopus Q2', max:1.50},
+  {code:'ESCI_SCOPUS_Q2,3,4', label:'ESCI hoặc Scopus Q2,3,4', max:1.50},
   {code:'ACI', label:'ACI', max:1.25},
   {code:'QT_KHAC', label:'Tạp chí quốc tế khác có ISSN/phản biện', max:1.00},
   {code:'TRONG_NUOC_KHAC', label:'Tạp chí khoa học trong nước khác', max:0.50},
