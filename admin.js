@@ -64,8 +64,20 @@ async function exportProfilePDF(id) {
     if (res.status !== 'ok') throw new Error(res.message || 'Không lấy được hồ sơ');
     const html = buildLLKH(res.data);
     const w = window.open('', '_blank');
-    w.document.open(); w.document.write(html); w.document.close();
-    setTimeout(() => { w.focus(); w.print(); }, 600);
+
+if (!w) {
+  status.textContent = 'Trình duyệt đang chặn popup. Hãy cho phép popup cho trang llkh.fba.vaa.edu.vn rồi bấm Xuất PDF lại.';
+  return;
+}
+
+w.document.open();
+w.document.write(html);
+w.document.close();
+
+setTimeout(() => {
+  w.focus();
+  w.print();
+}, 600);
     status.className = 'ok'; status.textContent = 'Đã mở cửa sổ xuất PDF.';
   } catch (err) {
     status.className = 'err'; status.textContent = err.message;
