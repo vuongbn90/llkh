@@ -1,11 +1,150 @@
-TenTapChi,Loai,DiemToiDa,GhiChu
-Journal of Asian Business and Economic Studies,Tạp chí Scopus,1.5,Theo danh mục HĐGS 2025
-Journal of Economics and Development,Tạp chí Scopus,1.5,Theo danh mục HĐGS 2025
-Journal of Finance and Accountancy Research,Tạp chí,1.0,Theo danh mục HĐGS 2025
-Tạp chí Công Thương,Tạp chí trong nước,0.5,Theo danh mục HĐGS 2025
-Kinh tế và Dự báo,Tạp chí trong nước,0.75,Theo danh mục HĐGS 2025
-Nghiên cứu Kinh tế,Tạp chí trong nước,1.0,Theo danh mục HĐGS 2025
-Tạp chí Tài chính,Tạp chí trong nước,0.75,Theo danh mục HĐGS 2025
-Khoa học Thương mại,Tạp chí trong nước,0.75,Theo danh mục HĐGS 2025
-Tài chính Doanh nghiệp,Tạp chí trong nước,0.5,Theo danh mục HĐGS 2025
-Tài chính VAA,Tạp chí trong nước,0.5,Theo danh mục HĐGS 2025
+﻿TT,TenTapChi,Loai,DiemToiDa,GhiChu
+1,Các tạp chí khoa học Việt Nam và quốc tế,Nhóm loại tạp chí quốc tế/Việt Nam,3.0,SCI/SCIE/SSCI IF>=3 hoặc A&HCI: 0-3.0; SCI/SCIE/SSCI IF<3 hoặc Scopus Q1: 0-2.0; ESCI hoặc Scopus Q2/Q3/Q4: 0-1.5
+2,"Các tạp chí khoa học quốc tế khác (ACI, ...)",Nhóm loại tạp chí quốc tế khác,1.25,ACI: 0-1.25; các tạp chí quốc tế khác: 0-1.0
+3,Các tạp chí khoa học thuộc nhóm chuyên ngành Kinh tế,Nhóm tạp chí trong nước,1.0,Thuộc top 500 trường ĐH hoặc được xuất bản bởi các đơn vị trong danh mục: 0-1.0
+4,Báo cáo khoa học viết bằng tiếng Anh tại hội nghị khoa học quốc tế,Kỷ yếu quốc tế,1.0,"Kỷ yếu hội thảo quốc tế có phản biện, có chỉ số ISBN: 0-1.0"
+5,Báo cáo khoa học tại hội nghị khoa học quốc gia,Kỷ yếu quốc gia,0.5,"Kỷ yếu hội thảo quốc gia có phản biện, có chỉ số ISBN: 0-0.5"
+6,"Các tạp chí khoa học về chủ đề Kinh tế học, Kinh doanh, Tài chính, Ngân hàng, Bảo hiểm, Kế toán, Kiểm toán, Quản trị và Quản lý",Nhóm tạp chí quốc tế theo NXB uy tín,1.0,"Không thuộc danh mục ISI/Scopus nhưng xuất bản bởi Springer, Elsevier, Wiley-Blackwell, Sage, Oxford, Cambridge, Emerald, Macmillan, Edward Elgar, De Gruyter, World Scientific, Routledge, Peter Lang, Thomson Reuters, McGraw Hill: 0-1.0"
+7,"Các tạp chí khoa học thuộc khối khoa học Kinh tế, quản lý và Kinh doanh",Tạp chí trong nước,0.5,ĐHQG TP.HCM; ĐH Đà Nẵng; ĐH Huế
+8,Cộng sản,Tạp chí trong nước,1.0,Theo danh mục HĐGS 2025
+9,Công thương (tên cũ: Công nghiệp),Tạp chí trong nước,0.5,Chỉ tính bài kinh tế
+10,Thương mại,Tạp chí trong nước,0.5,Hợp nhất với Công nghiệp thành Tạp chí Công thương; chỉ tính bài kinh tế
+11,Thông tin và Dự báo Kinh tế - Xã hội,Tạp chí trong nước,0.25,Đã đình bản; điểm theo giai đoạn trong danh mục
+12,Hoạt động Khoa học,Tạp chí trong nước,0.5,Tiền thân của Khoa học và Công nghệ Việt Nam; chỉ tính bài kinh tế
+13,"Khoa học và Công nghệ Việt Nam, Bản B",Tạp chí trong nước,0.75,"Tên cũ: Hoạt động Khoa học; Vietnam Journal of Science and Technology - MOST, Series B; chỉ tính bài kinh tế"
+14,"Khoa học và Công nghệ, Bản D",Tạp chí trong nước,0.75,VMOST Journal of Social Sciences and Humanities; chỉ tính bài kinh tế
+15,Kinh tế và Dự báo,Tạp chí trong nước,0.75,Theo danh mục HĐGS 2025
+16,Lao động Xã hội,Tạp chí trong nước,0.5,Chỉ tính bài kinh tế
+17,Nông nghiệp và Môi trường,Tạp chí trong nước,0.5,Tên cũ liên quan Khoa học Công nghệ Nông nghiệp; chỉ tính bài kinh tế
+18,Thanh tra Tài chính,Tạp chí trong nước,0.25,Đã đình bản
+19,Tài chính,Tạp chí trong nước,0.75,Theo danh mục HĐGS 2025
+20,Tổ chức nhà nước,Tạp chí trong nước,0.25,Chỉ tính bài kinh tế
+21,Ngân hàng - Vietnam Banking Review,Tạp chí trong nước,0.5,Chỉ tính bài kinh tế
+22,Kiểm toán,Tạp chí trong nước,0.5,Theo danh mục HĐGS 2025
+23,Nghiên cứu Khoa học Kiểm toán,Tạp chí trong nước,0.5,Theo danh mục HĐGS 2025
+24,Quản lý Ngân sách,Tạp chí trong nước,0.5,Theo danh mục HĐGS 2025
+25,Du lịch Việt Nam,Tạp chí trong nước,0.5,Chỉ tính bài kinh tế
+26,Con số và Sự kiện,Tạp chí trong nước,0.5,Tên cũ: Thống kê; chỉ tính bài kinh tế
+27,Thuế Nhà nước,Tạp chí trong nước,0.5,Theo danh mục HĐGS 2025
+28,Nghiên cứu Kinh tế và Kinh doanh Châu Á,Tạp chí trong nước,1.0,Tên cũ: Phát triển kinh tế
+29,Journal of Economics and Development,Scopus,2.0,"Có tên tiếng Việt: Kinh tế và Phát triển; điểm thay đổi theo giai đoạn, có mức Scopus Q1"
+30,Journal of International Economics and Management,ACI,1.0,Có tên tiếng Việt: Quản lý và Kinh tế quốc tế; tên cũ: Kinh tế đối ngoại
+31,Khoa học các công nghệ,Tạp chí trong nước,0.5,Chỉ tính bài kinh tế
+32,Kinh tế - Kỹ thuật,Tạp chí trong nước,0.75,Chỉ tính bài kinh tế
+33,Khoa học Giao thông vận tải,Tạp chí trong nước,0.5,Chỉ tính bài kinh tế
+34,Khoa học,Tạp chí trong nước,0.5,Trường Đại học Hồng Đức
+35,Khoa học,Tạp chí trong nước,0.25,Trường Đại học Mở Hà Nội; chỉ tính bài kinh tế
+36,Ho Chi Minh City Open University Journal of Science - Economics and Business Administration,ACI,1.0,Trường Đại học Mở TP.HCM
+37,Khoa học,Tạp chí trong nước,0.5,Trường Đại học Quốc tế Hồng Bàng; chỉ tính bài kinh tế
+38,Khoa học,Tạp chí trong nước,0.25,Trường Đại học Tây Bắc; chỉ tính bài kinh tế
+39,Khoa học,Tạp chí trong nước,0.25,Trường Đại học Tây Nguyên; chỉ tính bài kinh tế
+40,Kinh tế,Tạp chí trong nước,0.25,Trường Đại học Vinh; chỉ tính bài kinh tế
+41,Khoa học,Tạp chí trong nước,0.25,Trường Đại học Văn Lang; chỉ tính bài kinh tế
+42,Khoa học Công nghệ,Tạp chí trong nước,0.75,Trường Đại học Hùng Vương; chỉ tính bài kinh tế
+43,Khoa học - Dalat University Journal of Science,ACI,1.0,Tên tiếng Anh: Journal of Science and Economics and Management
+44,Khoa học,Tạp chí trong nước,0.5,Trường Đại học Hải Phòng; chỉ tính bài kinh tế
+45,Khoa học Đại học Huế: Kinh tế và Phát triển,Tạp chí trong nước,0.5,Đại học Huế
+46,Khoa học Đại học Huế: Xã hội và Nhân văn,Tạp chí trong nước,0.25,Đại học Huế; chỉ tính bài kinh tế
+47,Khoa học Đại học Thủ Dầu Một,Tạp chí trong nước,0.25,Chỉ tính bài kinh tế
+48,Khoa học Đại học Văn Hiến,Tạp chí trong nước,0.5,Chỉ tính bài kinh tế
+49,Kinh tế và Kinh doanh,Tạp chí trong nước,1.0,Cách chuyên san Kinh tế và Kinh doanh thuộc Khoa học ĐHQGHN; VNU Journal of Economics and Business
+50,Khoa học ĐHQGHN: Nghiên cứu Chính sách và Quản lý,Tạp chí trong nước,0.75,Chỉ tính bài kinh tế
+51,Khoa học Kinh tế,Tạp chí trong nước,0.75,"Trường Đại học Kinh tế, Đại học Đà Nẵng"
+52,Khoa học Kỹ thuật Mỏ - Địa chất,Tạp chí trong nước,0.25,Trường Đại học Mỏ - Địa chất; chỉ tính bài kinh tế
+53,Khoa học Quản lý và Kinh tế,Tạp chí trong nước,0.75,"Trường Đại học Kinh tế, Đại học Huế"
+54,Khoa học Quốc tế AGU,Tạp chí trong nước,0.25,"ĐH An Giang, ĐHQG TP.HCM; chỉ tính bài kinh tế"
+55,Khoa học Tài chính Kế toán,Tạp chí trong nước,0.25,Trường Đại học Tài chính - Kế toán
+56,Khoa học Thương mại,Tạp chí trong nước,0.75,Journal of Trade Science; Trường Đại học Thương mại
+57,Khoa học và Công nghệ,Tạp chí trong nước,0.75,Đại học Đà Nẵng; chỉ tính bài kinh tế
+58,Khoa học và Công nghệ,Tạp chí trong nước,0.75,Trường Đại học Công nghiệp Hà Nội; chỉ tính bài kinh tế
+59,Khoa học và Công nghệ,Tạp chí trong nước,0.75,Trường Đại học Công nghiệp TP.HCM; chỉ tính bài kinh tế
+60,Khoa học và Công nghệ,Tạp chí trong nước,0.25,Trường Đại học Đông Đô; chỉ tính bài kinh tế
+61,Khoa học và Công nghệ Đại học Duy Tân,Tạp chí trong nước,0.25,Chỉ tính bài kinh tế
+62,Khoa học và Công nghệ Lâm nghiệp,Tạp chí trong nước,0.5,Journal of Forestry Science and Technology; chỉ tính bài kinh tế
+63,Khoa học Yersin,Tạp chí trong nước,0.25,Trường Đại học Yersin Đà Lạt; chỉ tính bài kinh tế
+64,Kinh doanh và Công nghệ,Tạp chí trong nước,0.25,Trường Đại học Kinh doanh và Công nghệ Hà Nội; chỉ tính bài kinh tế
+65,Kinh tế Kỹ thuật,Tạp chí trong nước,0.25,Trường Đại học Kinh tế - Kỹ thuật Bình Dương; chỉ tính bài kinh tế
+66,Kinh tế và Ngân hàng châu Á,Tạp chí trong nước,1.0,Tên cũ trước 2019: Công nghệ Ngân hàng; Asian Journal of Economics and Banking
+67,Kinh tế và Quản trị kinh doanh,Tạp chí trong nước,0.5,"Trường Kinh tế và Quản trị kinh doanh, Đại học Thái Nguyên"
+68,Nghiên cứu khoa học và Phát triển kinh tế,Tạp chí trong nước,0.25,Trường Đại học Tây Đô
+69,Nghiên cứu Tài chính - Marketing,Tạp chí trong nước,0.75,Journal of Finance - Marketing Research; Trường Đại học Tài chính - Marketing
+70,Phát triển Khoa học Công nghệ: Chuyên san Kinh tế - Luật và Quản lý,Tạp chí trong nước,1.0,"Trường Đại học Kinh tế - Luật, ĐHQG TP.HCM"
+71,Phát triển và Hội nhập,Tạp chí trong nước,0.75,Trường Đại học Kinh tế - Tài chính TP.HCM
+72,Nguồn nhân lực và An sinh xã hội,Tạp chí trong nước,0.5,Trường Đại học Lao động - Xã hội; chỉ tính bài kinh tế
+73,Khoa học Quản lý và Công nghệ,Tạp chí trong nước,0.5,Trường Đại học Công nghệ và Quản lý Hữu Nghị; chỉ tính bài kinh tế
+74,Khoa học và Công nghệ,Tạp chí trong nước,0.5,Trường Đại học Bình Dương; chỉ tính bài kinh tế
+75,Khoa học Nông nghiệp và Phát triển,Tạp chí trong nước,0.25,Trường Đại học Nông - Lâm Bắc Giang; chỉ tính bài kinh tế
+76,Khoa học,ACI,0.75,Trường Đại học Quy Nhơn; chỉ tính bài kinh tế
+77,Khoa học Đại học Công Thương,Tạp chí trong nước,0.5,Tên cũ: Khoa học Công nghệ và Thực phẩm; chỉ tính bài kinh tế
+78,Khoa học Công nghệ và Phát triển,Tạp chí trong nước,0.75,Khoa học kỹ thuật nông nghiệp VN; Học viện Nông nghiệp Việt Nam; chỉ tính bài kinh tế
+79,Giáo dục lý luận,Tạp chí trong nước,0.5,Học viện Chính trị khu vực I; chỉ tính bài kinh tế
+80,Khoa học Chính trị,Tạp chí trong nước,0.75,Học viện Chính trị Quốc gia HCM; chỉ tính bài kinh tế
+81,Lý luận Chính trị,Tạp chí trong nước,0.75,Học viện Chính trị Quốc gia HCM; chỉ tính bài kinh tế
+82,Thông tin khoa học chính trị,Tạp chí trong nước,0.25,Học viện Chính trị khu vực IV; Học viện Chính trị Quốc gia HCM; chỉ tính bài kinh tế
+83,Nghiên cứu Tài chính - Kế toán,Tạp chí trong nước,0.75,Học viện Tài chính
+84,Journal of Finance and Accounting Research,Tạp chí trong nước,0.75,Học viện Tài chính
+85,Kinh tế - Luật và Ngân hàng,Tạp chí trong nước,0.75,Học viện Ngân hàng; chỉ tính bài kinh tế
+86,Journal of Economics and Banking Studies (JEBS),Tạp chí trong nước,0.75,Học viện Ngân hàng
+87,Kinh tế và Quản lý,Tạp chí trong nước,0.5,Học viện Chính trị Quốc gia HCM
+88,Nghiên cứu Dân tộc,Tạp chí trong nước,0.25,Học viện Dân tộc; chỉ tính bài kinh tế
+89,Nghiên cứu quốc tế,Tạp chí trong nước,0.5,Học viện Ngoại giao; chỉ tính bài kinh tế
+90,Quản lý Nhà nước,Tạp chí trong nước,0.75,Học viện Hành chính và Quản trị công; chỉ tính bài kinh tế
+91,Kinh tế & Quản trị kinh doanh,Tạp chí trong nước,0.25,Học viện Phụ nữ Việt Nam; chỉ tính bài kinh tế
+92,Châu Mỹ ngày nay,Tạp chí trong nước,0.5,Viện Hàn lâm KHXH Việt Nam; chỉ tính bài kinh tế
+93,Nghiên cứu Châu Phi và Trung Đông,Tạp chí trong nước,0.25,Viện Hàn lâm KHXH Việt Nam; chỉ tính bài kinh tế
+94,Nghiên cứu Đông Bắc Á,Tạp chí trong nước,0.5,Viện Hàn lâm KHXH Việt Nam; chỉ tính bài kinh tế
+95,Nghiên cứu Đông Bắc Á,Tạp chí trong nước,0.5,Tên cũ: Nghiên cứu Nhật Bản; Nghiên cứu Nhật Bản và Đông Bắc Á; chỉ tính bài kinh tế
+96,Nghiên cứu Gia đình và Giới,Tạp chí trong nước,0.25,Viện Hàn lâm KHXH Việt Nam; chỉ tính bài kinh tế
+97,Thế giới: Vấn đề Kinh tế và Chính trị,Tạp chí trong nước,1.0,Vietnam Economic Review
+98,Vietnam's Socio-Economic Development,Tạp chí trong nước,0.5,Viện Hàn lâm KHXH Việt Nam
+99,Khoa học Xã hội Việt Nam,Tạp chí trong nước,0.75,Viện Hàn lâm KHXH Việt Nam; chỉ tính bài kinh tế
+100,Trung Quốc và Hội nhập,Tạp chí trong nước,0.5,Viện KHXH Việt Nam / Viện Hàn lâm KHXH Việt Nam; chỉ tính bài kinh tế
+101,Nghiên cứu Đông Nam Á,Tạp chí trong nước,0.5,"Viện Nghiên cứu Đông Nam Á, Viện Hàn lâm KHXH Việt Nam"
+102,Nghiên cứu Kinh tế,Tạp chí trong nước,1.0,"Viện Kinh tế Việt Nam, Viện Hàn lâm KHXH Việt Nam"
+103,Nhân lực Khoa học xã hội,Tạp chí trong nước,0.25,"Học viện Khoa học Xã hội, Viện Hàn lâm KHXH Việt Nam; chỉ tính bài kinh tế"
+104,Phát triển bền vững,Tạp chí trong nước,0.75,"Viện Vùng ứng dụng, Viện Hàn lâm KHXH Việt Nam; chỉ tính bài kinh tế"
+105,Thông tin Khoa học xã hội,Tạp chí trong nước,0.5,"Viện Thông tin KHXH, Viện Hàn lâm KHXH Việt Nam; chỉ tính bài kinh tế"
+106,Khoa học Xã hội TP. Hồ Chí Minh,Tạp chí trong nước,0.25,"Viện KHXH vùng Nam Bộ, Viện Hàn lâm KHXH Việt Nam; chỉ tính bài kinh tế"
+107,Nghiên cứu Ấn Độ và Châu Á,Tạp chí trong nước,0.5,"Viện Nghiên cứu Ấn Độ và Tây Nam Á, Viện Hàn lâm KHXH Việt Nam; chỉ tính bài kinh tế"
+108,Nghiên cứu Châu Âu,Tạp chí trong nước,0.5,"Viện Nghiên cứu Châu Âu, Viện Hàn lâm KHXH Việt Nam; chỉ tính bài kinh tế"
+109,Nghiên cứu Trung Quốc,Tạp chí trong nước,0.5,"Viện Nghiên cứu Trung Quốc, Viện Hàn lâm KHXH Việt Nam; chỉ tính bài kinh tế"
+110,Quản lý Kinh tế,Tạp chí trong nước,0.5,"Viện Nghiên cứu Quản lý Kinh tế Trung ương, Bộ Kế hoạch và Đầu tư"
+111,Phát triển khoa học và công nghệ,Tạp chí trong nước,0.75,Đại học Quốc gia TP.HCM; chỉ tính bài kinh tế
+112,Kinh tế tài chính Việt Nam,Tạp chí trong nước,0.25,Bộ Tài chính
+113,Nghiên cứu Công nghiệp và Thương mại,Tạp chí trong nước,0.5,"Viện Nghiên cứu chiến lược chính sách công thương, Bộ Công thương"
+114,Chính trị và Phát triển,Tạp chí trong nước,0.25,Nhà xuất bản Chính trị Quốc gia Sự thật; chỉ tính bài kinh tế
+115,Bảo hiểm Xã hội,Tạp chí trong nước,0.5,Bảo hiểm Xã hội Việt Nam
+116,Thị trường Tài chính tiền tệ,Tạp chí trong nước,0.5,Hiệp hội Ngân hàng Việt Nam
+117,Kế toán và Kiểm toán,Tạp chí trong nước,0.5,Hội Kế toán và Kiểm toán Việt Nam
+118,Tài chính Doanh nghiệp,Tạp chí trong nước,0.25,Hội Tư vấn Thuế Việt Nam
+119,Kinh tế Châu Á - Thái Bình Dương,Tạp chí trong nước,0.5,Trung tâm Kinh tế Châu Á - Thái Bình Dương
+120,Khoa học Đại học Đại Nam,Tạp chí trong nước,0.25,Trường Đại học Đại Nam; chỉ tính bài kinh tế
+121,Nghiên cứu khoa học Đại học Sao Đỏ,Tạp chí trong nước,0.25,Trường Đại học Sao Đỏ; chỉ tính bài kinh tế
+122,Khoa học và Kinh tế phát triển,Tạp chí trong nước,0.25,Trường Đại học Nam Cần Thơ; chỉ tính bài kinh tế
+123,Khoa học Đại học Đồng Tháp,Tạp chí trong nước,0.25,Trường Đại học Đồng Tháp; chỉ tính bài kinh tế
+124,Khoa học Đại học Vinh,Tạp chí trong nước,0.25,Trường Đại học Vinh; chỉ tính bài kinh tế
+125,Khoa học Công nghệ thông tin và truyền thông,Tạp chí trong nước,0.5,Học viện Công nghệ Bưu chính Viễn thông; chỉ tính bài kinh tế
+126,Khoa học Đại học Cửu Long,Tạp chí trong nước,0.25,Trường Đại học Cửu Long; chỉ tính bài kinh tế
+127,Tài chính Quản trị Kinh doanh,Tạp chí trong nước,0.25,Trường Đại học Tài chính Quản trị Kinh doanh
+128,Khoa học và Công nghệ Trường Đại học Hòa Bình,Tạp chí trong nước,0.5,Chỉ tính bài kinh tế
+129,Khoa học và Quản lý Kinh tế,Tạp chí trong nước,0.25,"Học viện Khoa học, Công nghệ và Đổi mới sáng tạo; chỉ tính bài kinh tế"
+130,Journal of Science and Transport Technology,Scopus,1.5,Trường Đại học Công nghệ Giao thông vận tải; chỉ tính bài kinh tế
+131,Khoa học Đại học Đồng Nai,Tạp chí trong nước,0.25,Trường Đại học Đồng Nai; chỉ tính bài kinh tế
+132,Khoa học Đại học Hạ Long,Tạp chí trong nước,0.25,Trường Đại học Hạ Long; chỉ tính bài kinh tế
+133,Tạp chí khoa học Lạc Hồng,Tạp chí trong nước,0.25,Trường Đại học Lạc Hồng; chỉ tính bài kinh tế
+134,Khoa học Tài chính - Ngân hàng,Tạp chí trong nước,0.25,Trường Đại học Tài chính Ngân hàng Hà Nội; chỉ tính bài kinh tế
+135,Khoa học và Công nghệ,Tạp chí trong nước,0.25,Trường Đại học Thành Đông; chỉ tính bài kinh tế
+136,Khoa học và Công nghệ,Tạp chí trong nước,0.25,Trường Đại học Nguyễn Tất Thành; chỉ tính bài kinh tế
+137,Nghiên cứu khoa học phát triển,Tạp chí trong nước,0.25,Trường Đại học Thành Đô; chỉ tính các bài kinh tế
+138,Khoa học Công đoàn,Tạp chí trong nước,0.25,Trường Đại học Công đoàn; chỉ tính các bài kinh tế
+139,Công nghiệp Mỏ,Tạp chí trong nước,0.25,Hội Khoa học và Công nghệ Mỏ Việt Nam; chỉ tính các bài kinh tế
+140,Khoa học và Công nghệ Giao thông vận tải,Tạp chí trong nước,0.25,Trường Đại học Giao thông Vận tải TP.HCM; chỉ tính các bài kinh tế
+141,Khoa học Trường Đại học Bạc Liêu,Tạp chí trong nước,0.25,Trường Đại học Bạc Liêu; chỉ tính các bài kinh tế
+142,Khoa học và Công nghệ: Engineering and Technology for Sustainable Development,Tạp chí trong nước,0.25,Đại học Bách khoa Hà Nội; chỉ tính các bài kinh tế
+143,Khoa học và Công nghệ Trường Đại học Hàng hải,Tạp chí trong nước,0.25,Trường Đại học Hàng hải Việt Nam; chỉ tính các bài kinh tế
+144,Kinh tế công nghiệp,Tạp chí trong nước,0.25,Trường Đại học Kinh tế Công nghiệp Long An; chỉ tính các bài kinh tế
+145,Khoa học và Công nghệ Đại học Công nghệ Đồng Nai,Tạp chí trong nước,0.25,Trường Đại học Công nghệ Đồng Nai; chỉ tính các bài kinh tế
+146,Nghiên cứu con người,Tạp chí trong nước,0.25,"Viện Con người, Viện Hàn lâm KHXH Việt Nam; chỉ tính các bài kinh tế"
+147,Khoa học và Công nghệ Cần Thơ,Tạp chí trong nước,0.25,Trường Đại học Kỹ thuật - Công nghệ Cần Thơ; chỉ tính các bài kinh tế
+148,Tài chính nhà nước và Lao động,Tạp chí trong nước,0.25,Bộ Nội vụ
+149,Kinh tế - Tài chính Vietnam Economic & Financial Review,Tạp chí trong nước,0.75,Bộ Tài chính
