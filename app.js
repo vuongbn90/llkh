@@ -2,7 +2,7 @@
 // LLKH PORTAL - FRONTEND
 // Bản không dùng ISSN/ISBN; tự tính điểm theo tên tạp chí trong sheet DanhMucTapChi
 // ===============================
-const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzZcKE7XjgaObG9TKvmUCnQ7z5Rzb7chUtqBis-CjgmsqzFuTcmt8jP6Gz1iWNpEknhDg/exec";
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxr4LCM5r1R3tRlTGJk6a6NgmasS5fefB0x3uTJLClfkzwCjXWzYZJV9qMNI6r16OptMQ/exec";
 
 let HDGS_CATALOG = [];
 const LOCAL_HDGS_CATALOG = [
