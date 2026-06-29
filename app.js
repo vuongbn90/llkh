@@ -320,7 +320,17 @@ document.getElementById('llkhForm').addEventListener('submit', async e => {
     }
 
 }
-    if(res.status !== 'ok') throw new Error(res.message || 'Không lưu được hồ sơ');
+ 
+
+function initRows(){
+  addRow('congTac');
+  addRow('deTai');
+  addRow('baiBao');
+  calcSummary();
+}
+
+document.addEventListener('DOMContentLoaded', async () => {
+     if(res.status !== 'ok') throw new Error(res.message || 'Không lưu được hồ sơ');
     status.textContent = 'Đã gửi hồ sơ thành công.';
     status.className = 'ok';
     e.target.reset();
@@ -333,15 +343,6 @@ document.getElementById('llkhForm').addEventListener('submit', async e => {
     status.className = 'err';
   }
 });
-
-function initRows(){
-  addRow('congTac');
-  addRow('deTai');
-  addRow('baiBao');
-  calcSummary();
-}
-
-document.addEventListener('DOMContentLoaded', async () => {
   await loadJournalCatalog();
   initRows();
 });
