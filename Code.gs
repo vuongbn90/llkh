@@ -19,7 +19,20 @@ function doGet(e) {
   try {
     const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
     const action = String((e.parameter && e.parameter.action) || '').toLowerCase();
+// ====== KIỂM TRA QUYỀN ADMIN ======
+    if (action === 'list' || action === 'profile') {
 
+      if (e.parameter.key !== ADMIN_KEY) {
+
+        return jsonOutput_({
+          status: 'error',
+          message: 'Bạn không có quyền truy cập.'
+        }, e);
+
+      }
+
+    }
+    // ==================================
     if (action === 'submitjsonp') {
       const data = JSON.parse(e.parameter.payload || '{}');
       return saveData_(data, e);
