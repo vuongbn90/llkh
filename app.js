@@ -345,3 +345,75 @@ document.addEventListener('DOMContentLoaded', async () => {
   await loadJournalCatalog();
   initRows();
 });
+function fillForm(data){
+
+    const main = data.main;
+
+    // Đổ dữ liệu vào các input
+    Object.keys(main).forEach(key=>{
+
+        const el=document.querySelector(`[name="${key}"]`);
+
+        if(el){
+            el.value=main[key] || "";
+        }
+
+    });
+
+    //------------------------------------------------
+    // Công tác
+    //------------------------------------------------
+
+    document.querySelector("#congTacTable tbody").innerHTML="";
+
+    (data.congTac||[]).forEach(r=>{
+
+        addRow("congTac",[
+            r.ThoiGian,
+            r.NoiCongTac,
+            r.CongViec
+        ]);
+
+    });
+
+    //------------------------------------------------
+    // Đề tài
+    //------------------------------------------------
+
+    document.querySelector("#deTaiTable tbody").innerHTML="";
+
+    (data.deTai||[]).forEach(r=>{
+
+        addRow("deTai",[
+            r.TenDeTai,
+            r.Nam,
+            r.CapDeTai,
+            r.VaiTro
+        ]);
+
+    });
+
+    //------------------------------------------------
+    // Bài báo
+    //------------------------------------------------
+
+    document.querySelector("#baiBaoTable tbody").innerHTML="";
+
+    (data.baiBao||[]).forEach(r=>{
+
+        addRow("baiBao",[
+            r.TenBai,
+            r.Nam,
+            r.TapChi,
+            r.Loai,
+            r.Q,
+            r.VaiTro,
+            r.DOI,
+            r.Diem
+        ]);
+
+    });
+
+    calcSummary();
+
+}
