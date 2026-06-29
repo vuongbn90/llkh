@@ -14,6 +14,11 @@
       <p class="subtitle">Danh sách giảng viên đã gửi hồ sơ và xuất PDF theo mẫu Lý lịch khoa học</p>
       <div class="toolbar">
         <a class="btn" href="index.html">← Về form nhập LLKH</a>
+        <input
+        id="adminKey"
+        type="password"
+        placeholder="Mã quản trị"
+        style="width:180px">
         <input id="searchBox" placeholder="Tìm theo họ tên/email/đơn vị" oninput="renderList()" />
         <button onclick="loadProfiles()">Tải danh sách</button>
       </div>
