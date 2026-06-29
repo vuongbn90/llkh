@@ -283,6 +283,43 @@ document.getElementById('llkhForm').addEventListener('submit', async e => {
   try{
     status.textContent = 'Đang gửi...';
     const res = await submitViaJsonp(data);
+    async function loadMyProfile(){
+
+    const email = document.querySelector('[name="email"]').value.trim();
+
+    if(email === ''){
+        alert("Vui lòng nhập Email trước.");
+        return;
+    }
+
+    const status = document.getElementById("status");
+    status.className = "";
+    status.textContent = "Đang tải hồ sơ...";
+
+    try{
+
+        const res = await jsonpGet({
+            action:"myprofile",
+            email:email
+        });
+
+        if(res.status !== "ok"){
+            throw new Error(res.message);
+        }
+
+        fillForm(res.data);
+
+        status.className="ok";
+        status.textContent="Đã tải hồ sơ.";
+
+    }catch(err){
+
+        status.className="err";
+        status.textContent=err.message;
+
+    }
+
+}
     if(res.status !== 'ok') throw new Error(res.message || 'Không lưu được hồ sơ');
     status.textContent = 'Đã gửi hồ sơ thành công.';
     status.className = 'ok';
