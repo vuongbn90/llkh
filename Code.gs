@@ -3,7 +3,7 @@
 // Bản không dùng ISSN/ISBN; tự tính điểm theo tên tạp chí trong sheet DanhMucTapChi
 // ===============================
 // Thay bằng ID Google Sheet của Thầy.
-const ADMIN_KEY = "LLKH_QTKD_2026";
+const ADMIN_KEY = "LLKH2026";
 const SPREADSHEET_ID = '1Mbg42-zmS7KcduxqWS7KbyraqX0PQ1gDfRiEkFSgkSM';
 
 function doPost(e) {
