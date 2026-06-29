@@ -73,12 +73,15 @@ async function exportProfilePDF(id){
   status.className = '';
   status.textContent = 'Đang tạo LLKH...';
   try{
-    jsonp({
-    action:'profile',
-    id:id,
-    key: document.getElementById("adminKey").value
+   const res = await jsonp({
+    action: 'profile',
+    id: id,
+    key: document.getElementById("adminKey").value.trim()
 });
-    if(res.status !== 'ok') throw new Error(res.message || 'Không lấy được hồ sơ');
+
+if (res.status !== 'ok') {
+    throw new Error(res.message || 'Không lấy được hồ sơ');
+}
     const html = buildLLKH(res.data);
     const w = window.open('', '_blank');
     if(!w){
