@@ -29,7 +29,16 @@ async function loadProfiles(){
   status.className = '';
   status.textContent = 'Đang tải dữ liệu...';
   try{
-    const res = await jsonp({action:'list'});
+    const key = document.getElementById('adminKey').value.trim();
+
+    if (!key) {
+      throw new Error('Vui lòng nhập mã quản trị.');
+    }
+
+    const res = await jsonp({
+      action: 'list',
+      key: key
+    });
     if(res.status !== 'ok') throw new Error(res.message || 'Lỗi tải dữ liệu');
     profiles = res.data || [];
     status.className = profiles.length ? 'ok' : '';
@@ -64,7 +73,11 @@ async function exportProfilePDF(id){
   status.className = '';
   status.textContent = 'Đang tạo LLKH...';
   try{
-    const res = await jsonp({action:'profile', id});
+    jsonp({
+    action:'profile',
+    id:id,
+    key: document.getElementById("adminKey").value
+});
     if(res.status !== 'ok') throw new Error(res.message || 'Không lấy được hồ sơ');
     const html = buildLLKH(res.data);
     const w = window.open('', '_blank');
