@@ -19,35 +19,28 @@ function doGet(e) {
   try {
     const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
     const action = String((e.parameter && e.parameter.action) || '').toLowerCase();
+// ====== KIỂM TRA QUYỀN ADMIN ======
+    if (action === 'list' || action === 'profile') {
 
+      if (e.parameter.key !== ADMIN_KEY) {
 
-// ===== Chỉ bảo vệ ADMIN =====
-if (action === 'list' || action === 'profile') {
-
-    if (e.parameter.key !== ADMIN_KEY) {
         return jsonOutput_({
-            status:'error',
-            message:'Bạn không có quyền truy cập.'
+          status: 'error',
+          message: 'Bạn không có quyền truy cập.'
         }, e);
+
+      }
+
     }
-
-}
     // ==================================
-   if (action === 'submitjsonp') {
-    const data = JSON.parse(e.parameter.payload || '{}');
-    return saveData_(data, e);
-}
-
-if (action === 'list')
-    return jsonOutput_(listProfiles_(ss), e);
-
-if (action === 'profile')
-    return jsonOutput_(getProfile_(ss, e.parameter.id || ""), e);
-if (action === 'catalog')
-    return jsonOutput_({status:'ok', data:getJournalCatalog_(ss)}, e);
-
-if (action === 'rules')
-    return jsonOutput_({status:'ok', data:scoreRules_()}, e);
+    if (action === 'submitjsonp') {
+      const data = JSON.parse(e.parameter.payload || '{}');
+      return saveData_(data, e);
+    }
+    if (action === 'list') return jsonOutput_(listProfiles_(ss), e);
+    if (action === 'profile') return jsonOutput_(getProfile_(ss, e.parameter.id || ''), e);
+    if (action === 'catalog') return jsonOutput_({status:'ok', data:getJournalCatalog_(ss)}, e);
+    if (action === 'rules') return jsonOutput_({status:'ok', data:scoreRules_()}, e);
 
     return jsonOutput_({status:'ok', message:'LLKH API is running', actions:['list','profile','submitJsonp','catalog','rules']}, e);
   } catch (err) {
@@ -217,6 +210,7 @@ function getProfile_(ss, id) {
   const baiBao = rowsAsObjects_(ss.getSheetByName('BaiBao')).filter(function(r){ return String(r.ProfileID) === String(id); });
   return {status:'ok', data:{main:main, congTac:congTac, deTai:deTai, baiBao:baiBao}};
 }
+
 function getJournalCatalog_(ss) {
   const sh = getSheet_(ss, 'DanhMucTapChi', headers_().DanhMucTapChi);
   seedJournalCatalogIfEmpty_(sh);
