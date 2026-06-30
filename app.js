@@ -244,24 +244,20 @@ function tableData(type){
 }
 
 async function submitViaJsonp(data){
-  try {
-    await fetch(WEB_APP_URL, {
-      method: 'POST',
-      mode: 'no-cors',
-      headers: {
-        'Content-Type': 'text/plain;charset=utf-8'
-      },
-      body: JSON.stringify(data)
-    });
+  return new Promise((resolve, reject) => {
+    const callback = 'llkhSubmit_' + Date.now() + '_' + Math.floor(Math.random()*100000);
+    const url = new URL(WEB_APP_URL);
+    url.searchParams.set('action', 'submitJsonp');
+    url.searchParams.set('payload', JSON.stringify(data));
+    url.searchParams.set('callback', callback);
 
-    return { status: 'ok' };
-
-  } catch (err) {
-    return {
-      status: 'error',
-      message: 'Không gửi được dữ liệu'
-    };
-  }
+    const script = document.createElement('script');
+    const timer = setTimeout(() => { delete window[callback]; script.remove(); reject(new Error('Hết thời gian chờ API')); }, 20000);
+    window[callback] = res => { clearTimeout(timer); delete window[callback]; script.remove(); resolve(res); };
+    script.onerror = () => { clearTimeout(timer); delete window[callback]; script.remove(); reject(new Error('Không gửi được dữ liệu')); };
+    script.src = url.toString();
+    document.body.appendChild(script);
+  });
 }
 
 document.getElementById('llkhForm').addEventListener('submit', async e => {
@@ -287,7 +283,7 @@ document.getElementById('llkhForm').addEventListener('submit', async e => {
   try{
     status.textContent = 'Đang gửi...';
     const res = await submitViaJsonp(data);
-  if(res.status !== 'ok') throw new Error(res.message || 'Không lưu được hồ sơ');
+    if(res.status !== 'ok') throw new Error(res.message || 'Không lưu được hồ sơ');
     status.textContent = 'Đã gửi hồ sơ thành công.';
     status.className = 'ok';
     e.target.reset();
@@ -309,6 +305,6 @@ function initRows(){
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
-      await loadJournalCatalog();
+  await loadJournalCatalog();
   initRows();
 });
