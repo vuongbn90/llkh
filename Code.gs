@@ -43,13 +43,6 @@ if (action === 'list')
 
 if (action === 'profile')
     return jsonOutput_(getProfile_(ss, e.parameter.id || ""), e);
-
-if (action === 'myprofile')
-    return jsonOutput_(
-        getProfileByEmail_(ss, e.parameter.email || ""),
-        e
-    );
-
 if (action === 'catalog')
     return jsonOutput_({status:'ok', data:getJournalCatalog_(ss)}, e);
 
@@ -223,30 +216,6 @@ function getProfile_(ss, id) {
   const deTai = rowsAsObjects_(ss.getSheetByName('DeTai')).filter(function(r){ return String(r.ProfileID) === String(id); });
   const baiBao = rowsAsObjects_(ss.getSheetByName('BaiBao')).filter(function(r){ return String(r.ProfileID) === String(id); });
   return {status:'ok', data:{main:main, congTac:congTac, deTai:deTai, baiBao:baiBao}};
-}
-function getProfileByEmail_(ss, email) {
-
-  ensureAllSheets_(ss);
-
-  email = String(email || "").trim().toLowerCase();
-
-  const rows = rowsAsObjects_(ss.getSheetByName('HoSoGV'));
-
-  const found = rows.filter(function(r){
-    return String(r.Email || "").trim().toLowerCase() === email;
-  });
-
-  if (!found.length) {
-    return {
-      status: 'error',
-      message: 'Không tìm thấy hồ sơ với email này.'
-    };
-  }
-
-  const profileId = found[found.length - 1].ProfileID;
-
-  return getProfile_(ss, profileId);
-
 }
 function getJournalCatalog_(ss) {
   const sh = getSheet_(ss, 'DanhMucTapChi', headers_().DanhMucTapChi);
